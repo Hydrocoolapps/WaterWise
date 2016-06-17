@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "130034760070",
+    "project_id": "waterwise-2892e"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:130034760070:android:fbef42adf210f286",
+        "android_client_info": {
+          "package_name": "hydrocoolapps.waterwise"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "130034760070-5sgra6vc5rn3tmeld7bndsi1nlv2cd4g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "hydrocoolapps.waterwise",
+            "certificate_hash": "63A6DFF98CFEFEF3635503BD5E520251AEF537E8"
+          }
+        },
+        {
+          "client_id": "130034760070-gfi6m2u5ie8j5c4oi6f68gsdv51es78m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBloEy0JngqRTTf_IIm_J_Q66XpHEVviFA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

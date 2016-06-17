@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="hydrocoolapps.waterwise.activity.PlantFragment">
+
+
+    <TextView
+        android:id="@+id/label"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="100dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="45dp"
+        android:text="@string/title_plant_info"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:layout_below="@+id/label"
+        android:layout_centerInParent="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="12dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:text="Edit fragment_plant.xml to change the appearance" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/plant_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_search_white_24dp"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true">
+
+    </android.support.design.widget.FloatingActionButton>
+
+</RelativeLayout>
