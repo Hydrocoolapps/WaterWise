@@ -6,13 +6,11 @@
 
     <TextView
         android:id="@+id/title"
-        android:textColor="@color/textColorPrimary"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="30dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textSize="15dp"
+        android:paddingStart="30dp"
+        android:padding="@dimen/default_margin"
+        android:textSize="@dimen/body_size"
         android:textStyle="bold" />
 
 </RelativeLayout>

@@ -2,9 +2,9 @@ package hydrocoolapps.waterwise.activity;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -19,6 +19,8 @@ public class SystemActivity extends ActionBarActivity implements FragmentDrawer.
     private Context context;
     private Toolbar myToolbar;
     private FragmentDrawer drawerFragment;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,7 @@ public class SystemActivity extends ActionBarActivity implements FragmentDrawer.
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         drawerFragment = (FragmentDrawer)
-                getSupportFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
+                getFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
         drawerFragment.setUp(R.id.fragment_navigation_drawer, (DrawerLayout) findViewById(R.id.drawer_layout), myToolbar);
         drawerFragment.setDrawerListener(this);
 
@@ -107,8 +109,8 @@ public class SystemActivity extends ActionBarActivity implements FragmentDrawer.
         }
 
         if (fragment != null) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentManager = getFragmentManager();
+            fragmentTransaction = fragmentManager.beginTransaction();
 
             fragmentTransaction.replace(R.id.container_body, fragment);
             fragmentTransaction.commit();

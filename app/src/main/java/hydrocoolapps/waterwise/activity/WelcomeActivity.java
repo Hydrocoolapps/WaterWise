@@ -51,6 +51,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private String gClientID;
     private GoogleSignInOptions gso;
     private GoogleApiClient mGoogleApiClient;
+    private GoogleSignInResult result;
     private GoogleApiClient.OnConnectionFailedListener connectionFailedListener;
 
     @Override
@@ -191,7 +192,7 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == G_SIGN_IN_KEY) {
-            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleGSignInResult(result);
         }
 
