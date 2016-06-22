@@ -10,6 +10,7 @@
     <dimen name="title_size">20sp</dimen>
     <dimen name="subheading_size">18sp</dimen>
     <dimen name="body_size">16sp</dimen>
+    <dimen name="button_text_size">14sp</dimen>
 
     <!-- Default element margins -->
     <dimen name="default_margin">10dp</dimen>

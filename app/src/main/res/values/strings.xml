@@ -17,6 +17,7 @@
     <string name="plant_info_heading">No Plant Selected</string>
     <string name="plant_info_description">Plant description will show here</string>
     <string name="plant_search_heading">Search for a Plant</string>
+    <string name="plant_results_heading">Search Results</string>
     <string name="hint_search">Search</string>
     <string name="btn_search">Search</string>
     <string name="btn_cancel">Cancel</string>

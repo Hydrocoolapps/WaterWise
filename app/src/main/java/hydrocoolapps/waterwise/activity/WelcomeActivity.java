@@ -161,8 +161,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onSuccess(User u) {
-                                    CharSequence text = "Welcome back!\n" + u.getUsername();
-                                    Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+                                    //CharSequence text = "Welcome back!\n" + u.getUsername();
+                                    //Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 
                                     Intent intent = new Intent(context, SystemActivity.class);
                                     startActivity(intent);
@@ -274,8 +274,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
                         @Override
                         public void onSuccess(User u) {
-                            CharSequence text = "Welcome back!\n" + u.getUsername();
-                            Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+                            //CharSequence text = "Welcome back!\n" + u.getUsername();
+                            //Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(context, SystemActivity.class);
                             startActivity(intent);

@@ -36,8 +36,8 @@ public class SettingsFragment extends Fragment {
 
                 SplashActivity.getClient().user().logout();
                 Intent intent = new Intent(getActivity(), SplashActivity.class);
-                startActivity(intent);
                 getActivity().finish();
+                startActivity(intent);
             }
         });
 

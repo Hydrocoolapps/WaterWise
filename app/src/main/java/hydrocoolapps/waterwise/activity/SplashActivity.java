@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.kinvey.android.Client;
 
+// Activity to throw up a splash screen while I do some other stuff in the background
 public class SplashActivity extends AppCompatActivity {
 
     private Context context;
@@ -19,16 +20,19 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Using a handler to delay the activity switch
         handler = new Handler();
         context = getApplicationContext();
 
+        // Startingt he Kinvey client
         initKinvey();
 
-        if (!mKinveyClient.user().isUserLoggedIn())
-            handler.postDelayed(goLogin, 2000);
+        // Checking if the user has already logged in previously
+        if (mKinveyClient.user().isUserLoggedIn())
+            handler.postDelayed(goSystem, 2000);
 
         else
-            handler.postDelayed(goSystem, 2000);
+            handler.postDelayed(goLogin, 2000);
 
     }
 
@@ -54,8 +58,8 @@ public class SplashActivity extends AppCompatActivity {
 
         public void run() {
 
-            CharSequence text = "Welcome back,!\n" + mKinveyClient.user().getUsername() + ".";
-            Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+            //CharSequence text = "Welcome back,!\n" + mKinveyClient.user().getUsername() + ".";
+            //Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 
             Intent intent = new Intent(context, SystemActivity.class);
             startActivity(intent);
