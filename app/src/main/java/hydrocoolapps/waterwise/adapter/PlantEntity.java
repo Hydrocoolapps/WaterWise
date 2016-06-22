@@ -20,6 +20,14 @@ public class PlantEntity extends GenericJson {
 
     public PlantEntity() {}
 
+    public String getPlantName() { return this.plantName; }
+
+    public String getPlantDescription() { return this.plantDescription; }
+
+    public double getNutrientAmount() { return this.nutrientAmount; }
+
+    public int getNutrientFrequency() { return this.nutrientFrequency; }
+
 }
 
 

@@ -10,9 +10,16 @@ import android.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kinvey.android.AsyncAppData;
 import com.kinvey.android.Client;
+import com.kinvey.android.callback.KinveyListCallback;
+import com.kinvey.java.Query;
+
+import org.w3c.dom.Text;
 
 import hydrocoolapps.waterwise.R;
 import hydrocoolapps.waterwise.adapter.PlantEntity;
@@ -21,6 +28,8 @@ public class PlantFragment extends Fragment {
 
     private Bundle bundle;
     private Context context;
+    private ImageView plantImage;
+    private TextView plantTitle;
     private FloatingActionButton searchBtn;
     private SearchDialogFragment searchDialog;
     private ResultsDialogFragment resultsDialog;
@@ -30,9 +39,15 @@ public class PlantFragment extends Fragment {
     private Bundle args;
     private String searchInput;
     private String resultInput;
+    private int numResults;
     private String[] searchResults;
     private PlantEntity selectedPlant;
     private static Client mKinveyClient;
+
+    private Query query;
+    private AsyncAppData<PlantEntity> plantResults;
+
+    private PlantFragment current;
 
     // Using ints to provide selection of which DialogFragment to inflate
     private static final int SEARCH_DIALOG_FRAGMENT = 1;
@@ -60,6 +75,14 @@ public class PlantFragment extends Fragment {
         searchDialog = new SearchDialogFragment();
         resultsDialog = new ResultsDialogFragment();
 
+        current = this;
+
+
+        // Instantiate the title
+        plantTitle = (TextView) rootView.findViewById(R.id.plant_info_heading);
+
+        // Instantiate the image view
+        plantImage = (ImageView) rootView.findViewById(R.id.plant_info_image);
 
         // Instantiate the FAB
         searchBtn = (FloatingActionButton) rootView.findViewById(R.id.plant_fab);
@@ -102,29 +125,50 @@ public class PlantFragment extends Fragment {
                     searchInput = bundle.getString("search", "Failure");
 
                     // If the input string is valid, search the database and create a dialog holding the results
-                    if (!searchInput.trim().equalsIgnoreCase("Failure")) {
-                        Toast.makeText(context, "You just searched: " + searchInput, Toast.LENGTH_SHORT).show();
+                    if (!searchInput.equalsIgnoreCase("Failure")) {
 
                         // Need to query the database here using the search input
+                        query = new Query();
+                        query.startsWith("plantName", searchInput);
 
+                        // Setting up the Async Data
+                        plantResults = mKinveyClient.appData("Plants", PlantEntity.class);
 
+                        plantResults.get(query, new KinveyListCallback<PlantEntity>() {
+                            @Override
+                            public void onSuccess(PlantEntity[] plantEntities) {
 
-                        // For testing, creating sample text for results
+                                numResults = plantEntities.length;
 
-                        searchResults = new String[5];
+                                System.out.println(numResults);
 
-                        for (int i = 0; i < 5; i++)
-                            searchResults[i] = "testResult: " + i;
+                                if (numResults > 0) {
+                                    searchResults = new String[numResults];
 
+                                    for (int i = 0; i < numResults; i++)
+                                        searchResults[i] = plantEntities[i].getPlantName().toString();
+                                } else {
+                                    searchResults = new String[1];
+                                    searchResults[1] = "No Plants Found!";
+                                }
 
-                        // Launching the results dialog with the list of results
-                        args = new Bundle();
-                        args.putStringArray("searchResults", searchResults);
+                                // Launching the results dialog with the list of results
+                                args = new Bundle();
+                                args.putStringArray("searchResults", searchResults);
 
-                        resultsDialog.setArguments(args);
+                                resultsDialog.setArguments(args);
 
-                        resultsDialog.setTargetFragment(this, RESULTS_DIALOG_FRAGMENT);
-                        resultsDialog.show(fm, "fragment_results_dialog");
+                                resultsDialog.setTargetFragment(current, RESULTS_DIALOG_FRAGMENT);
+                                resultsDialog.show(fm, "fragment_results_dialog");
+
+                            }
+
+                            @Override
+                            public void onFailure(Throwable throwable) {
+                                Toast.makeText(context,"Kinvey failed to search", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                     }
 
                 }
@@ -139,8 +183,13 @@ public class PlantFragment extends Fragment {
 
                     // If the selection is valid, get the object from the database
                     if (!resultInput.trim().equalsIgnoreCase("Failure")) {
-                        Toast.makeText(context, "You just selected: " + resultInput, Toast.LENGTH_SHORT).show();
 
+                        plantTitle.setText(resultInput);
+
+                        if (resultInput.contains("Lettuce")) {
+                            plantImage.setImageResource(R.drawable.ic_lettuce_img);
+
+                        }
                         // Need to query the database again for the name that was selected
 
 
