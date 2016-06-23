@@ -16,7 +16,6 @@ import hydrocoolapps.waterwise.R;
 public class ResultsDialogFragment extends DialogFragment {
 
     private ListView resultsList;
-    private Bundle bundle;
     private String[] searchResults;
 
     public ResultsDialogFragment() {
@@ -29,6 +28,7 @@ public class ResultsDialogFragment extends DialogFragment {
 
         View view = inflater.inflate(R.layout.fragment_results_dialog, container);
 
+        // Get the string array passed to this dialog as an argument
         searchResults = getArguments().getStringArray("searchResults");
 
         // Creating the listview and setting an on item click listener to get which result the user clicks on
@@ -40,10 +40,15 @@ public class ResultsDialogFragment extends DialogFragment {
             // Overriding onItemClick, to add the selected item to an intent and trigger the onActivityResult() method of the plant info fragment
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                // Adding the selected item to an intent before sending it back to the plant_info fragment
                 Intent i = new Intent()
-                        .putExtra("result", searchResults[position]);
+                        .putExtra("searchResults", searchResults[position]);
 
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
+
+                resultsList.setAdapter(null);
+
                 dismiss();
             }
         });

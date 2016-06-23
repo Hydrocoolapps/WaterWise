@@ -30,7 +30,7 @@
             android:id="@+id/input_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:inputType="textCapWords"
             android:hint="@string/hint_search"
             android:textSize="@dimen/subheading_size" />
 

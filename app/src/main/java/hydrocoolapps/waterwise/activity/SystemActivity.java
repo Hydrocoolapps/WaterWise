@@ -16,7 +16,6 @@ import hydrocoolapps.waterwise.R;
 
 public class SystemActivity extends ActionBarActivity implements FragmentDrawer.FragmentDrawerListener {
 
-    private Context context;
     private Toolbar myToolbar;
     private FragmentDrawer drawerFragment;
     private FragmentManager fragmentManager;
@@ -27,12 +26,12 @@ public class SystemActivity extends ActionBarActivity implements FragmentDrawer.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_system);
 
-        context = getApplicationContext();
-
         myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
+
+        fragmentManager = getFragmentManager();
 
         drawerFragment = (FragmentDrawer)
                 getFragmentManager().findFragmentById(R.id.fragment_navigation_drawer);
@@ -52,23 +51,16 @@ public class SystemActivity extends ActionBarActivity implements FragmentDrawer.
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            displayView(6);
-        }
+        if (id == R.id.action_settings) { displayView(6); }
 
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    public void onDrawerItemSelected(View view, int position) {
-
-        displayView(position);
-    }
+    public void onDrawerItemSelected(View view, int position) { displayView(position); }
 
     private void displayView(int position) {
         Fragment fragment = null;
@@ -76,46 +68,61 @@ public class SystemActivity extends ActionBarActivity implements FragmentDrawer.
 
         //Going to use switch statements to grab the fragment requested
         switch (position) {
+
             case 0:
-                fragment = new AccountFragment();
                 title = getString(R.string.title_account);
+                fragment = new AccountFragment();
                 break;
+
             case 1:
-                fragment = new SystemFragment();
                 title = getString(R.string.title_system);
+                fragment = new SystemFragment();
                 break;
+
             case 2:
-                fragment = new PlantFragment();
                 title = getString(R.string.title_plant_info);
+                fragment = new PlantFragment();
                 break;
+
             case 3:
-                fragment = new SensorsFragment();
                 title = getString(R.string.title_sensors);
+                fragment = new SensorsFragment();
                 break;
+
             case 4:
-                fragment = new HelpFragment();
                 title = getString(R.string.title_help);
+                fragment = new HelpFragment();
                 break;
+
             case 5:
-                fragment = new AboutFragment();
                 title = getString(R.string.title_about);
+                fragment = new AboutFragment();
                 break;
+
             case 6:
-                fragment = new SettingsFragment();
                 title = getString(R.string.title_settings);
-                break;
-            default:
+                fragment = new SettingsFragment();
                 break;
         }
 
         if (fragment != null) {
-            fragmentManager = getFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
 
-            fragmentTransaction.replace(R.id.container_body, fragment);
+            fragmentTransaction.replace(R.id.container_body, fragment).addToBackStack(fragment.getClass().getName());
             fragmentTransaction.commit();
 
             getSupportActionBar().setTitle(title);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+
+        if (fragmentManager.getBackStackEntryCount() > 1)
+            fragmentManager.popBackStack();
+
+        else
+            moveTaskToBack(true);
+    }
+
 }

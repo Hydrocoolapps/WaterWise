@@ -1,8 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context="hydrocoolapps.waterwise.activity.PlantFragment">
 
@@ -23,8 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/default_margin"
-        android:layout_below="@id/plant_info_heading"
-        android:background="@drawable/ic_placeholder_img" />
+        android:layout_below="@id/plant_info_heading" />
 
     <TextView
         android:id="@+id/plant_description"

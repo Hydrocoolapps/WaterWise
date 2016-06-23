@@ -2,7 +2,6 @@ package hydrocoolapps.waterwise.activity;
 
 import android.app.Activity;
 import android.app.DialogFragment;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -29,17 +28,21 @@ public class SearchDialogFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_dialog, container);
 
+        // Initializing XML elements I will be using
         inputLayoutSearch = (TextInputLayout) view.findViewById(R.id.input_layout_search);
         mEditText = (EditText) view.findViewById(R.id.input_search);
         btnSearch = (Button) view.findViewById(R.id.btn_search);
         btnCancel = (Button) view.findViewById(R.id.btn_cancel);
 
+        // Setting onclock listener for search button
         btnSearch.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
+
+                // Adding the search term to an intent to pass back to the Plant_Info fragment
                 Intent i = new Intent()
-                        .putExtra("search", mEditText.getText().toString());
+                        .putExtra("search", mEditText.getText().toString().trim());
 
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
                 mEditText.getText().clear();
