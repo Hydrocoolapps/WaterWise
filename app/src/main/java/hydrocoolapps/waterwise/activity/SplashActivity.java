@@ -22,9 +22,9 @@ public class SplashActivity extends AppCompatActivity {
 
         // Using a handler to delay the activity switch
         handler = new Handler();
-        context = getApplicationContext();
+        context = this;
 
-        // Startingt he Kinvey client
+        // Starting the Kinvey client
         initKinvey();
 
         // Checking if the user has already logged in previously
@@ -57,10 +57,6 @@ public class SplashActivity extends AppCompatActivity {
     private Runnable goSystem = new Runnable() {
 
         public void run() {
-
-            //CharSequence text = "Welcome back,!\n" + mKinveyClient.user().getUsername() + ".";
-            //Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
-
             Intent intent = new Intent(context, SystemActivity.class);
             startActivity(intent);
         }

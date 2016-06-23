@@ -8,14 +8,16 @@
     android:paddingBottom="10dp"
     android:paddingTop="10dp"
     android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true" >
+    android:focusableInTouchMode="true"
+    android:background="@color/backgroundColor" >
 
     <TextView
         android:id="@+id/plant_search_heading"
-        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/default_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/headline_size"
+        android:layout_alignParentStart="true"
+        android:textSize="@dimen/subheading_size"
         android:textStyle="bold"
         android:text="@string/plant_search_heading"/>
 
@@ -36,28 +38,22 @@
 
     </android.support.design.widget.TextInputLayout>
 
-    <Button
+    <Button style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:id="@+id/btn_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/input_layout_search"
         android:layout_alignParentEnd="true"
-        android:layout_margin="@dimen/default_margin"
-        android:background="@color/colorAccent"
         android:text="@string/btn_search"
-        android:textColor="#FFFFFF"
         android:textSize="@dimen/button_text_size" />
 
-    <Button
+    <Button style="@style/Widget.AppCompat.Button.Borderless.Colored"
         android:id="@+id/btn_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/input_layout_search"
-        android:layout_alignParentStart="true"
-        android:layout_margin="@dimen/default_margin"
-        android:background="@color/colorAccent"
+        android:layout_toLeftOf="@id/btn_search"
         android:text="@string/btn_cancel"
-        android:textColor="#FFFFFF"
         android:textSize="@dimen/button_text_size"
         />
 

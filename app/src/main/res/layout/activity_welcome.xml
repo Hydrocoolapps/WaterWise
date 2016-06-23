@@ -1,19 +1,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true" >
+    android:focusableInTouchMode="true"
+    android:background="@color/backgroundColor">
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:id="@+id/container_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="0dp"
         android:orientation="vertical">
 
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
-    </LinearLayout>
+    </android.support.v7.widget.CardView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,7 +35,6 @@
                 android:id="@+id/input_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
                 android:textSize="@dimen/subheading_size"
                 android:hint="@string/hint_email" />
         </android.support.design.widget.TextInputLayout>
@@ -45,7 +48,6 @@
                 android:id="@+id/input_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
                 android:textSize="@dimen/subheading_size"
                 android:hint="@string/hint_password" />
         </android.support.design.widget.TextInputLayout>
@@ -60,29 +62,31 @@
                 android:id="@+id/g_signin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:elevation="2dp"
+                android:translationZ="6dp"
                 android:layout_alignParentStart="true"
                 android:textAlignment="center"
                 android:layout_margin="@dimen/default_margin" />
 
-            <Button
+            <Button style="@style/Widget.AppCompat.Button.Colored"
                 android:id="@+id/btn_signup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:elevation="2dp"
+                android:translationZ="6dp"
                 android:text="@string/btn_sign_up"
-                android:background="@color/colorAccent"
-                android:textColor="#FFFFFF"
                 android:textSize="@dimen/button_text_size"
                 android:layout_toRightOf="@id/g_signin"
                 android:layout_margin="@dimen/default_margin" />
 
-            <Button
+            <Button style="@style/Widget.AppCompat.Button.Colored"
                 android:id="@+id/btn_signin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:elevation="2dp"
+                android:translationZ="6dp"
                 android:layout_toRightOf="@id/btn_signup"
                 android:text="@string/btn_sign_in"
-                android:background="@color/colorAccent"
-                android:textColor="#FFFFFF"
                 android:textSize="@dimen/button_text_size"
                 android:layout_margin="10dp"/>
 

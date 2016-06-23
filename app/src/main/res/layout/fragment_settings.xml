@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="hydrocoolapps.waterwise.activity.SettingsFragment">
+    tools:context="hydrocoolapps.waterwise.activity.SettingsFragment"
+    android:background="@color/backgroundColor" >
 
 
     <TextView
@@ -27,14 +28,14 @@
         android:gravity="center_horizontal"
         android:text="Edit fragment_settings.xml to change the appearance" />
 
-    <Button
+    <Button style="@style/Widget.AppCompat.Button.Colored"
+        android:id="@+id/btn_signout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/btn_sign_out"
         android:textSize="@dimen/button_text_size"
-        android:id="@+id/btn_signout"
-        android:background="@color/colorAccent"
-        android:textColor="#FFFFFF"
+        android:elevation="2dp"
+        android:translationZ="6dp"
         android:layout_margin="10dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />

@@ -1,6 +1,5 @@
 package hydrocoolapps.waterwise.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -24,13 +23,13 @@ public class SystemFragment extends Fragment{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_system, container, false);
+        context = getActivity().getApplicationContext();
 
         // Instantiate the FAB and then add an action listener to it
 
@@ -49,14 +48,6 @@ public class SystemFragment extends Fragment{
 
         // Inflate the layout for this fragment
         return rootView;
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        // Get the context from the applicaiton when the fragment gets attached
-        context = activity;
     }
 
     @Override

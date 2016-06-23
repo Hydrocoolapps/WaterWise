@@ -9,4 +9,5 @@
     <color name="iconColor">#FFFFFF</color>
     <color name="dividerColor">#B6B6B6</color>
     <color name="navigationBarColor">#000000</color>
+    <color name="backgroundColor">#FAFAFA</color>
 </resources>

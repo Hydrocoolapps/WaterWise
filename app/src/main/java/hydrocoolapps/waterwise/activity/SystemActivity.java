@@ -1,12 +1,10 @@
 package hydrocoolapps.waterwise.activity;
-
-import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,7 +12,7 @@ import android.view.View;
 
 import hydrocoolapps.waterwise.R;
 
-public class SystemActivity extends ActionBarActivity implements FragmentDrawer.FragmentDrawerListener {
+public class SystemActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
 
     private Toolbar myToolbar;
     private FragmentDrawer drawerFragment;

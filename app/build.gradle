@@ -38,6 +38,9 @@ dependencies {
     // RecyclerView for Material navigation drawer
     compile 'com.android.support:recyclerview-v7:23.3.0'
 
+    // CardView for Material Toolbar
+    compile 'com.android.support:cardview-v7:23.+'
+
     // Kinvey Dependencies
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile(name:'kinvey-android-2.10.8', ext:'aar')
