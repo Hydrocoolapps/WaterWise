@@ -6,26 +6,37 @@
     tools:context="hydrocoolapps.waterwise.activity.AboutFragment"
     android:background="@color/backgroundColor" >
 
-
-    <TextView
-        android:id="@+id/label"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="100dp"
-        android:layout_width="fill_parent"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="45dp"
-        android:text="@string/title_about"
-        android:textStyle="bold"/>
+        android:layout_centerInParent="true" >
 
-    <TextView
-        android:layout_below="@+id/label"
-        android:layout_centerInParent="true"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="12dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:text="Edit fragment_about.xml to change the appearance" />
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_logo"
+            android:layout_centerHorizontal="true"/>
+
+        <TextView
+            android:id="@+id/developer_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/logo"
+            android:text="@string/developer_name"
+            android:textStyle="bold"
+            android:textSize="@dimen/title_size"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/developer_name"
+            android:text="@string/developer_contact"
+            android:textSize="@dimen/subheading_size"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

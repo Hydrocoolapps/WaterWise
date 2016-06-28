@@ -1,0 +1,294 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- PH Sensor -->
+        <android.support.v7.widget.CardView
+            android:id="@+id/container_ph_sensor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_margin"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="0dp"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp" >
+
+                <TextView
+                    android:id="@+id/ph_sensor_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/ph_sensor_heading"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/subheading_size"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/default_margin"
+                    android:layout_below="@id/ph_sensor_heading">
+
+                    <TextView
+                        android:id="@+id/ph_sensor_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/default_margin"
+                        android:layout_alignParentStart="true"
+                        android:text="@string/default_reading"
+                        android:textSize="@dimen/body_size" />
+
+                    <TextView
+                        android:id="@+id/ph_sensor_timestamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/default_margin"
+                        android:layout_alignParentEnd="true"
+                        android:text="@string/timestamp"
+                        android:textSize="@dimen/body_size"/>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <!-- EC Sensor -->
+        <android.support.v7.widget.CardView
+            android:id="@+id/container_ec_sensor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginRight="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:layout_below="@id/container_ph_sensor"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="0dp"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp" >
+
+                <TextView
+                    android:id="@+id/ec_sensor_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/ec_sensor_heading"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/subheading_size"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/default_margin"
+                    android:layout_below="@id/ec_sensor_heading">
+
+                    <TextView
+                        android:id="@+id/ec_sensor_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/default_margin"
+                        android:layout_alignParentStart="true"
+                        android:text="@string/default_reading"
+                        android:textSize="@dimen/body_size" />
+
+                    <TextView
+                        android:id="@+id/ec_sensor_timestamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/default_margin"
+                        android:layout_alignParentEnd="true"
+                        android:text="@string/timestamp"
+                        android:textSize="@dimen/body_size"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <!-- H20 Temp Sensor -->
+        <android.support.v7.widget.CardView
+            android:id="@+id/container_h20_sensor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginRight="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:layout_below="@id/container_ec_sensor"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="0dp"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp" >
+
+                <TextView
+                    android:id="@+id/h20_sensor_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/water_temp_sensor_heading"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/subheading_size"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/default_margin"
+                    android:layout_below="@id/h20_sensor_heading">
+
+                    <TextView
+                        android:id="@+id/h20_sensor_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/default_margin"
+                        android:layout_alignParentStart="true"
+                        android:text="@string/default_reading"
+                        android:textSize="@dimen/body_size" />
+
+                    <TextView
+                        android:id="@+id/h20_sensor_timestamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/default_margin"
+                        android:layout_alignParentEnd="true"
+                        android:text="@string/timestamp"
+                        android:textSize="@dimen/body_size"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <!-- Water level sensor -->
+        <android.support.v7.widget.CardView
+            android:id="@+id/container_water_level_sensor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginRight="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:layout_below="@id/container_h20_sensor"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="0dp"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp" >
+
+                <TextView
+                    android:id="@+id/water_level_sensor_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/water_level_sensor_heading"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/subheading_size"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/default_margin"
+                    android:layout_below="@id/water_level_sensor_heading">
+
+                    <TextView
+                        android:id="@+id/water_level_sensor_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/default_margin"
+                        android:layout_alignParentStart="true"
+                        android:text="@string/default_reading"
+                        android:textSize="@dimen/body_size" />
+
+                    <TextView
+                        android:id="@+id/water_level_sensor_timestamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/default_margin"
+                        android:layout_alignParentEnd="true"
+                        android:text="@string/timestamp"
+                        android:textSize="@dimen/body_size"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <!-- Humidity Sensor -->
+        <android.support.v7.widget.CardView
+            android:id="@+id/container_humidity_sensor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/default_margin"
+            android:layout_marginRight="@dimen/default_margin"
+            android:layout_marginBottom="@dimen/default_margin"
+            android:layout_below="@id/container_water_level_sensor"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="0dp"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp" >
+
+                <TextView
+                    android:id="@+id/humidity_sensor_heading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:text="@string/humidity_sensor_heading"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/subheading_size"/>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/default_margin"
+                    android:layout_below="@id/humidity_sensor_heading">
+
+                    <TextView
+                        android:id="@+id/humidity_sensor_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/default_margin"
+                        android:layout_alignParentStart="true"
+                        android:text="@string/default_reading"
+                        android:textSize="@dimen/body_size" />
+
+                    <TextView
+                        android:id="@+id/humidity_sensor_timestamp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/default_margin"
+                        android:layout_alignParentEnd="true"
+                        android:text="@string/timestamp"
+                        android:textSize="@dimen/body_size"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+
+</FrameLayout>

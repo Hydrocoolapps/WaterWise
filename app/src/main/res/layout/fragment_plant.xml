@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,44 +9,60 @@
     tools:context="hydrocoolapps.waterwise.activity.PlantFragment"
     android:background="@color/backgroundColor">
 
-
-    <TextView
-        android:id="@+id/plant_info_heading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/default_margin"
-        android:layout_centerHorizontal="true"
-        android:textSize="@dimen/headline_size"
-        android:textStyle="bold"
-        android:text="@string/plant_info_heading" />
-
     <android.support.v7.widget.CardView
-        android:id="@+id/container_plant_info_image"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/default_margin"
-        android:layout_below="@id/plant_info_heading"
         app:cardElevation="4dp"
         app:cardCornerRadius="0dp"
         android:orientation="vertical" >
 
-        <ImageView
-            android:id="@+id/plant_info_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/plant_info_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin"
+                android:layout_centerHorizontal="true"
+                android:textSize="@dimen/headline_size"
+                android:textStyle="bold"
+                android:text="@string/plant_info_heading" />
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/container_plant_info_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="@dimen/default_margin"
+                android:layout_below="@id/plant_info_heading"
+                app:cardElevation="4dp"
+                app:cardCornerRadius="0dp"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/plant_info_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_placeholder_img" />
+
+            </android.support.v7.widget.CardView>
+
+            <TextView
+                android:id="@+id/plant_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/container_plant_info_image"
+                android:layout_margin="@dimen/default_margin"
+                android:textSize="@dimen/body_size"
+                android:text="@string/plant_info_description" />
+
+        </RelativeLayout>
 
     </android.support.v7.widget.CardView>
-
-    <TextView
-        android:id="@+id/plant_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/container_plant_info_image"
-        android:layout_margin="@dimen/default_margin"
-        android:textSize="@dimen/body_size"
-        android:text="@string/plant_info_description" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/plant_fab"

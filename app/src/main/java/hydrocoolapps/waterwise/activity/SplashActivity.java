@@ -2,11 +2,10 @@ package hydrocoolapps.waterwise.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
-
 import com.kinvey.android.Client;
 
 // Activity to throw up a splash screen while I do some other stuff in the background
@@ -15,10 +14,14 @@ public class SplashActivity extends AppCompatActivity {
     private Context context;
     private Handler handler;
     private static Client mKinveyClient;
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Getting application data
+        prefs = getSharedPreferences("WaterWise", 0);
 
         // Using a handler to delay the activity switch
         handler = new Handler();
@@ -29,10 +32,10 @@ public class SplashActivity extends AppCompatActivity {
 
         // Checking if the user has already logged in previously
         if (mKinveyClient.user().isUserLoggedIn())
-            handler.postDelayed(goSystem, 2000);
+            handler.postDelayed(goSystem, 1000);
 
         else
-            handler.postDelayed(goLogin, 2000);
+            handler.postDelayed(goLogin, 1000);
 
     }
 
@@ -49,6 +52,7 @@ public class SplashActivity extends AppCompatActivity {
     private Runnable goLogin = new Runnable() {
 
         public void run() {
+
             Intent intent = new Intent(context, WelcomeActivity.class);
             startActivity(intent);
         }
@@ -57,6 +61,7 @@ public class SplashActivity extends AppCompatActivity {
     private Runnable goSystem = new Runnable() {
 
         public void run() {
+
             Intent intent = new Intent(context, SystemActivity.class);
             startActivity(intent);
         }

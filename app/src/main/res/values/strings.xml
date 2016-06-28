@@ -13,14 +13,37 @@
     <string name="btn_sign_in">Sign In</string>
     <string name="btn_sign_out">Sign Out</string>
 
+    <!-- Account screen strings -->
+    <string name="reset_password">Reset Password</string>
+    <string name="update_account">Account Information</string>
+    <string name="update_system"> System Information</string>
+    <string name="email_unchanged">(Email Unchanged)</string>
+    <string name="ip_unchanged">(IP Unchanged)</string>
+    <string name="port_unchanged">(Port Unchanged)</string>
+    <string name="update">Update</string>
+    <string name="err_msg_ip">Please enter a valid IP address</string>
+
     <!-- Plant info screen strings -->
     <string name="plant_info_heading">No Plant Selected</string>
     <string name="plant_info_description">Plant description will show here</string>
-    <string name="plant_search_heading">Search for a Plant</string>
+    <string name="plant_search_heading">Search For Plants</string>
     <string name="plant_results_heading">Search Results</string>
     <string name="hint_search">Search</string>
     <string name="btn_search">Search</string>
     <string name="btn_cancel">Cancel</string>
+
+    <!-- Sensor screen strings -->
+    <string name="default_reading">Sensor Value</string>
+    <string name="timestamp">Timestamp</string>
+    <string name="ph_sensor_heading">PH</string>
+    <string name="ec_sensor_heading">Electrical Conductivity</string>
+    <string name="water_temp_sensor_heading">Water Temperature</string>
+    <string name="water_level_sensor_heading">Water Level</string>
+    <string name="humidity_sensor_heading">Humidity</string>
+
+    <!-- About screen strings -->
+    <string name="developer_name">Hydrocoolapps</string>
+    <string name="developer_contact">Hydrocoolapp@gmail.com</string>
 
     <!-- Navigation items -->
     <string name="nav_item_account">Account</string>

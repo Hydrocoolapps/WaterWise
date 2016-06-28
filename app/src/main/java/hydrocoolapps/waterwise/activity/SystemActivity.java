@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 
 import hydrocoolapps.waterwise.R;
 
@@ -107,6 +108,7 @@ public class SystemActivity extends AppCompatActivity implements FragmentDrawer.
             fragmentTransaction = fragmentManager.beginTransaction();
 
             fragmentTransaction.replace(R.id.container_body, fragment).addToBackStack(fragment.getClass().getName());
+            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             fragmentTransaction.commit();
 
             getSupportActionBar().setTitle(title);

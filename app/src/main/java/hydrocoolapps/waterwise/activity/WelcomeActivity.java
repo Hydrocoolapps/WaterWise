@@ -2,6 +2,7 @@ package hydrocoolapps.waterwise.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +40,10 @@ public class WelcomeActivity extends AppCompatActivity {
     private SignInButton gSignIn;
     private GoogleSignInAccount gAccount;
 
+    private SharedPreferences prefs;
+    private String plantTitle, plantDescription;
+    private int plantImageId;
+
     private static final int G_SIGN_IN_KEY = 1001;
     private static final String G_PLUS_PASS = "ntg;biunwertSPH;IJ01";
 
@@ -59,6 +64,7 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
+        prefs = getSharedPreferences("WaterWise", 0);
         context = getApplicationContext();
 
         // Get the Kinvey client
@@ -131,6 +137,12 @@ public class WelcomeActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onSuccess(User u) {
+
+                                    // Setting default account data
+                                    mKinveyClient.user().put("plantTitle", getString(R.string.plant_info_heading));
+                                    mKinveyClient.user().put("plantDescription", getString(R.string.plant_info_description));
+                                    mKinveyClient.user().put("plantImageId", R.drawable.ic_placeholder_img);
+
                                     CharSequence text = u.getUsername() + "\nyour account has been created.";
                                     Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 
@@ -161,8 +173,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
                                 @Override
                                 public void onSuccess(User u) {
-                                    //CharSequence text = "Welcome back!\n" + u.getUsername();
-                                    //Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+
+                                    getDatabaseInfo();
 
                                     Intent intent = new Intent(context, SystemActivity.class);
                                     startActivity(intent);
@@ -262,6 +274,12 @@ public class WelcomeActivity extends AppCompatActivity {
 
                                         @Override
                                         public void onSuccess(User u) {
+
+                                            // Setting default account data
+                                            mKinveyClient.user().put("plantTitle", getString(R.string.plant_info_heading));
+                                            mKinveyClient.user().put("plantDescription", getString(R.string.plant_info_description));
+                                            mKinveyClient.user().put("plantImageId", R.drawable.ic_placeholder_img);
+
                                             CharSequence text = u.getUsername() + "\nyour account has been created.";
                                             Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
 
@@ -274,9 +292,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
                         @Override
                         public void onSuccess(User u) {
-                            //CharSequence text = "Welcome back!\n" + u.getUsername();
-                            //Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
-
                             Intent intent = new Intent(context, SystemActivity.class);
                             startActivity(intent);
                             finish();
@@ -286,8 +301,34 @@ public class WelcomeActivity extends AppCompatActivity {
 
         else {
             CharSequence text = "G+ failed to authenticate";
-            Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+            System.out.println(text);
         }
+    }
+
+    private void getDatabaseInfo() {
+        // Getting account database information
+        plantTitle = mKinveyClient.user().get("plantTitle").toString();
+        plantDescription = mKinveyClient.user().get("plantDescription").toString();
+
+        switch (plantTitle) {
+
+            case "Lettuce":
+                plantImageId = R.drawable.ic_lettuce_img;
+                break;
+
+            case "Tomatoes":
+                plantImageId = R.drawable.ic_tomato_img;
+                break;
+
+            default:
+                plantImageId = R.drawable.ic_placeholder_img;
+                break;
+        }
+
+        // Saving account database info to application storage
+        prefs.edit().putString("plantTitle", plantTitle).commit();
+        prefs.edit().putString("plantDescription", plantDescription).commit();
+        prefs.edit().putInt("plantImageId", plantImageId).commit();
     }
 
 }

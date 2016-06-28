@@ -1,31 +1,145 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="hydrocoolapps.waterwise.activity.AccountFragment"
-    android:background="@color/backgroundColor" >
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true"
+    android:background="@color/backgroundColor">
 
-
-    <TextView
-        android:id="@+id/label"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="100dp"
-        android:layout_width="fill_parent"
+    <android.support.v7.widget.CardView
+        android:id="@+id/container_account_info"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="@dimen/headline_size"
-        android:text="@string/title_account"
-        android:textStyle="bold"/>
+        android:layout_margin="@dimen/default_margin"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="0dp"
+        android:orientation="vertical" >
 
-    <TextView
-        android:layout_below="@+id/label"
-        android:layout_centerInParent="true"
-        android:layout_width="fill_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:padding="20dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="@string/update_account"
+                android:textStyle="bold"
+                android:textSize="@dimen/subheading_size"/>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <EditText
+                    android:id="@+id/input_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/subheading_size"
+                    android:hint="@string/email_unchanged" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <RelativeLayout
+                android:id="@+id/btn_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal" >
+
+            <Button style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:id="@+id/btn_update_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:text="@string/update"
+                android:textSize="@dimen/button_text_size" />
+
+            <Button style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:id="@+id/btn_reset_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/btn_update_account"
+                android:text="@string/reset_password"
+                android:textSize="@dimen/button_text_size" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/container_system_info"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/body_size"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:text="Edit fragment_account.xml to change the appearance" />
+        android:layout_marginBottom="@dimen/default_margin"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:layout_marginRight="@dimen/default_margin"
+        android:layout_below="@id/container_account_info"
+        app:cardElevation="4dp"
+        app:cardCornerRadius="0dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerInParent="true"
+            android:padding="20dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="@string/update_system"
+                android:textStyle="bold"
+                android:textSize="@dimen/subheading_size" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_ip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <EditText
+                    android:id="@+id/input_ip"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/subheading_size"
+                    android:hint="@string/ip_unchanged" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_port"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/input_port"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/subheading_size"
+                    android:hint="@string/port_unchanged" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <Button style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:id="@+id/btn_update_system"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@string/update"
+                android:textSize="@dimen/button_text_size" />
+
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 </RelativeLayout>
