@@ -2,10 +2,13 @@ package hydrocoolapps.waterwise.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
+import android.text.method.PasswordTransformationMethod;
+import android.text.method.TransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +81,8 @@ public class AccountFragment extends Fragment {
 
         updateEmail = (EditText) rootView.findViewById(R.id.input_email);
         updateIP = (EditText) rootView.findViewById(R.id.input_ip);
+
+        updateEmail.setTypeface(Typeface.DEFAULT);
 
         btnAccountUpdate = (Button) rootView.findViewById(R.id.btn_update_account);
         btnSystemUpdate = (Button) rootView.findViewById(R.id.btn_update_system);

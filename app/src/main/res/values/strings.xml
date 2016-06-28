@@ -41,6 +41,23 @@
     <string name="water_level_sensor_heading">Water Level</string>
     <string name="humidity_sensor_heading">Humidity</string>
 
+    <!-- Help screen strings -->
+    <string name="btn_more">More FAQs Online</string>
+    <string name="support_heading">Support Information</string>
+    <string name="support_body">For support, please contact us at:</string>
+    <string name="support_email">support.Hydrocoolapp@gmail.com</string>
+    <string name="faq">Frequently Asked Questions</string>
+
+    <string name="faq_1">Will WaterWise work without this mobile application?</string>
+    <string name="ans_1">Yes, the system is fully functional on its own. However,
+        you will have to mix the nutrients into the reservoir manually.</string>
+
+    <string name="faq_2">Is the system safe to use outdoors?</string>
+    <string name="ans_2">Yes, WaterWise is designed to be used both indoors and outdoors.</string>
+
+    <string name="faq_3">How often should I drain the system?</string>
+    <string name="ans_3">Please refer to the Plant Information screen for your plant.</string>
+
     <!-- About screen strings -->
     <string name="developer_name">Hydrocoolapps</string>
     <string name="developer_contact">Hydrocoolapp@gmail.com</string>
@@ -48,7 +65,7 @@
     <!-- Navigation items -->
     <string name="nav_item_account">Account</string>
     <string name="nav_item_system">System</string>
-    <string name="nav_item_plant_info">Plant Info</string>
+    <string name="nav_item_plant_info">Plant Information</string>
     <string name="nav_item_sensors">Sensors</string>
     <string name="nav_item_help">Help</string>
     <string name="nav_item_about">About</string>
@@ -66,7 +83,7 @@
     <!-- Title strings for Views -->
     <string name="title_account">Account</string>
     <string name="title_system">System</string>
-    <string name="title_plant_info">Plant Info</string>
+    <string name="title_plant_info">Plant Information</string>
     <string name="title_sensors">Sensors</string>
     <string name="title_help">Help</string>
     <string name="title_about">About</string>

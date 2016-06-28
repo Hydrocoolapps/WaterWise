@@ -38,7 +38,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_margin="@dimen/default_margin"
                 android:layout_below="@id/plant_info_heading"
-                app:cardElevation="4dp"
+                app:cardElevation="2dp"
                 app:cardCornerRadius="0dp"
                 android:orientation="vertical" >
 
@@ -57,6 +57,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_below="@id/container_plant_info_image"
                 android:layout_margin="@dimen/default_margin"
+                android:gravity="center"
                 android:textSize="@dimen/body_size"
                 android:text="@string/plant_info_description" />
 
@@ -69,9 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_search_white_24dp"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/fab_margin"
+        android:layout_margin="@dimen/fab_margin"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" >
 

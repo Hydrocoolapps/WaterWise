@@ -10,7 +10,7 @@
         android:id="@+id/container_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="8dp"
+        app:cardElevation="6dp"
         app:cardCornerRadius="0dp"
         android:orientation="vertical">
 
@@ -36,7 +36,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/subheading_size"
-                android:hint="@string/hint_email" />
+                android:hint="@string/hint_email"
+                android:inputType="textEmailAddress"
+                android:fontFamily="sans-serif"/>
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -49,7 +51,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/subheading_size"
-                android:hint="@string/hint_password" />
+                android:hint="@string/hint_password"
+                android:inputType="textPassword"
+                android:fontFamily="sans-serif"/>
         </android.support.design.widget.TextInputLayout>
 
         <RelativeLayout

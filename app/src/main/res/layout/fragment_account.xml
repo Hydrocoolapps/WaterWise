@@ -41,7 +41,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/subheading_size"
-                    android:hint="@string/email_unchanged" />
+                    android:hint="@string/email_unchanged"
+                    android:inputType="textEmailAddress"
+                    android:fontFamily="sans-serif"/>
 
             </android.support.design.widget.TextInputLayout>
 
