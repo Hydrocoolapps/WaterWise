@@ -26,6 +26,7 @@ public class FragmentDrawer extends Fragment {
 
     private static String TAG = FragmentDrawer.class.getSimpleName();
 
+    private Context context;
     private RecyclerView recyclerView;
     private ActionBarDrawerToggle mDrawerToggle;
     private DrawerLayout mDrawerLayout;
@@ -59,6 +60,8 @@ public class FragmentDrawer extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        context = getActivity().getApplicationContext();
+
         // drawer labels
         titles = getActivity().getResources().getStringArray(R.array.nav_drawer_labels);
     }
@@ -71,6 +74,7 @@ public class FragmentDrawer extends Fragment {
         recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
 
         adapter = new NavigationDrawerAdapter(getActivity(), getData());
+
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getActivity(), recyclerView, new ClickListener() {
@@ -108,7 +112,7 @@ public class FragmentDrawer extends Fragment {
 
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
-                super.onDrawerSlide(drawerView, slideOffset);
+                super.onDrawerSlide(drawerView, 0);
                 toolbar.setAlpha(1 - slideOffset / 2);
             }
         };

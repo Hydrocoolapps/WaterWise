@@ -13,4 +13,9 @@
         android:textSize="@dimen/body_size"
         android:textStyle="bold" />
 
+    <ImageView
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
 </RelativeLayout>

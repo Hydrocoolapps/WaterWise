@@ -1,5 +1,6 @@
 package hydrocoolapps.waterwise.activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -49,6 +50,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private static final int G_SIGN_IN_KEY = 1001;
     private static final String G_PLUS_PASS = "ntg;biunwertSPH;IJ01";
 
+    private ProgressDialog progressDialog;
     private Client mKinveyClient;
     private AsyncUserDiscovery users;
     private UserLookup criteria;
@@ -113,6 +115,14 @@ public class WelcomeActivity extends AppCompatActivity {
 
                 if (validateEmail(email) && validatePassword(pass)) {
 
+                    // Setting up a dialog to show the user while sign up is processing
+                    progressDialog =  new ProgressDialog(WelcomeActivity.this,
+                            R.style.AppTheme_Dark_Dialog);
+
+                    progressDialog.setIndeterminate(true);
+                    progressDialog.setMessage("Processing...");
+                    progressDialog.show();
+
                     mKinveyClient.user().create(email, pass,
                             new KinveyUserCallback() {
                                 @Override
@@ -120,6 +130,12 @@ public class WelcomeActivity extends AppCompatActivity {
 
                                     // Going to check to see if the e-mail already exists
                                     criteria.setEmail(email);
+
+                                    // Dismiss dialog
+                                    new android.os.Handler().postDelayed(
+                                            new Runnable() {
+                                                public void run() { progressDialog.dismiss(); }
+                                            }, 1000);
 
                                     // Looking up users on the server
                                     users.lookup(criteria, new KinveyUserListCallback() {
@@ -143,14 +159,24 @@ public class WelcomeActivity extends AppCompatActivity {
                                     // Setting default account data
                                     mKinveyClient.user().put("plantTitle", getString(R.string.plant_info_heading));
                                     mKinveyClient.user().put("plantDescription", getString(R.string.plant_info_description));
-                                    mKinveyClient.user().put("plantImageId", R.drawable.ic_placeholder_img);
+                                    mKinveyClient.user().put("plantImageId", R.drawable.ic_placeholder2_img);
 
-                                    CharSequence text = u.getUsername() + "\nyour account has been created.";
-                                    Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+                                    // Dismiss dialog and go to the new activity
+                                    new android.os.Handler().postDelayed(
+                                            new Runnable() {
+                                                public void run() {
 
-                                    Intent intent = new Intent(context, SystemActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                                    progressDialog.dismiss();
+
+                                                    CharSequence text = mKinveyClient.user().getUsername() + "\nyour account has been created.";
+                                                    Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+
+                                                    Intent intent = new Intent(context, SystemActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            }, 2000);
+
                                 }
                             });
                 }
@@ -165,10 +191,26 @@ public class WelcomeActivity extends AppCompatActivity {
                 pass = inputPassword.getText().toString();
 
                 if (validateEmail(email) && validatePassword(pass)) {
+
+                    // Setting up a dialog to show the user while sign up is processing
+                    progressDialog =  new ProgressDialog(WelcomeActivity.this,
+                            R.style.AppTheme_Dark_Dialog);
+
+                    progressDialog.setIndeterminate(true);
+                    progressDialog.setMessage("Authenticating...");
+                    progressDialog.show();
+
                     mKinveyClient.user().login(email, pass,
                             new KinveyUserCallback() {
                                 @Override
                                 public void onFailure(Throwable t) {
+
+                                    // Dismiss dialog
+                                    new android.os.Handler().postDelayed(
+                                            new Runnable() {
+                                                public void run() { progressDialog.dismiss(); }
+                                            }, 1000);
+
                                     CharSequence text = "Wrong username or password.";
                                     Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
                                 }
@@ -178,9 +220,19 @@ public class WelcomeActivity extends AppCompatActivity {
 
                                     getDatabaseInfo();
 
-                                    Intent intent = new Intent(context, SystemActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                    // Dismiss dialog
+                                    new android.os.Handler().postDelayed(
+                                            new Runnable() {
+                                                public void run() {
+
+                                                    progressDialog.dismiss();
+
+                                                    Intent intent = new Intent(context, SystemActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+
+                                                }
+                                            }, 2000);
                                 }
                             });
                 }
@@ -255,6 +307,7 @@ public class WelcomeActivity extends AppCompatActivity {
         }
     }
 
+
     private void handleGSignInResult(GoogleSignInResult result) {
 
         if (result.isSuccess()) {
@@ -280,7 +333,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                             // Setting default account data
                                             mKinveyClient.user().put("plantTitle", getString(R.string.plant_info_heading));
                                             mKinveyClient.user().put("plantDescription", getString(R.string.plant_info_description));
-                                            mKinveyClient.user().put("plantImageId", R.drawable.ic_placeholder_img);
+                                            mKinveyClient.user().put("plantImageId", R.drawable.ic_placeholder2_img);
 
                                             CharSequence text = u.getUsername() + "\nyour account has been created.";
                                             Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
@@ -323,7 +376,7 @@ public class WelcomeActivity extends AppCompatActivity {
                 break;
 
             default:
-                plantImageId = R.drawable.ic_placeholder_img;
+                plantImageId = R.drawable.ic_placeholder2_img;
                 break;
         }
 

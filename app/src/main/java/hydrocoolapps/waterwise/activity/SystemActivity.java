@@ -38,25 +38,14 @@ public class SystemActivity extends AppCompatActivity implements FragmentDrawer.
         drawerFragment.setDrawerListener(this);
 
         //displayView will choose an item from the menu and bring up that fragment
-        displayView(1); // Second menu item is what I would like to use as the main page
+        displayView(0); // First menu item is what I would like to use as the main page
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_system, menu);
-        return true;
-    }
+    public boolean onCreateOptionsMenu(Menu menu) { return super.onCreateOptionsMenu(menu); }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) { displayView(6); }
-
-        return super.onOptionsItemSelected(item);
-    }
+    public boolean onOptionsItemSelected(MenuItem item) { return super.onOptionsItemSelected(item); }
 
     @Override
     public void onDrawerItemSelected(View view, int position) { displayView(position); }
@@ -69,38 +58,33 @@ public class SystemActivity extends AppCompatActivity implements FragmentDrawer.
         switch (position) {
 
             case 0:
-                title = getString(R.string.title_account);
-                fragment = new AccountFragment();
-                break;
-
-            case 1:
                 title = getString(R.string.title_system);
                 fragment = new SystemFragment();
                 break;
 
-            case 2:
+            case 1:
                 title = getString(R.string.title_plant_info);
                 fragment = new PlantFragment();
                 break;
 
-            case 3:
+            case 2:
                 title = getString(R.string.title_sensors);
                 fragment = new SensorsFragment();
                 break;
 
+            case 3:
+                title = getString(R.string.title_account);
+                fragment = new AccountFragment();
+                break;
+
             case 4:
-                title = getString(R.string.title_help);
-                fragment = new HelpFragment();
+                title = getString(R.string.title_settings);
+                fragment = new SettingsFragment();
                 break;
 
             case 5:
-                title = getString(R.string.title_about);
-                fragment = new AboutFragment();
-                break;
-
-            case 6:
-                title = getString(R.string.title_settings);
-                fragment = new SettingsFragment();
+                title = getString(R.string.title_help);
+                fragment = new HelpFragment();
                 break;
         }
 

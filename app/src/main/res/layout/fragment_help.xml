@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/default_margin"
-        app:cardElevation="4dp"
-        app:cardCornerRadius="0dp"
+        app:cardElevation="@dimen/default_card_elevation"
+        app:cardCornerRadius="@dimen/default_card_corner_radius"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -103,8 +103,8 @@
         android:layout_marginRight="@dimen/default_margin"
         android:layout_marginBottom="@dimen/default_margin"
         android:layout_below="@id/container_faq"
-        app:cardElevation="4dp"
-        app:cardCornerRadius="0dp"
+        app:cardElevation="@dimen/default_card_elevation"
+        app:cardCornerRadius="@dimen/default_card_corner_radius"
         android:orientation="vertical" >
 
         <LinearLayout

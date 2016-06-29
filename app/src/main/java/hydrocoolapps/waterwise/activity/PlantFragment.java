@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,6 +86,9 @@ public class PlantFragment extends Fragment {
         plantDescription = (TextView) rootView.findViewById(R.id.plant_description);
         searchBtn = (FloatingActionButton) rootView.findViewById(R.id.plant_fab);
         currentImageId = -1;
+
+//        plantImage.setMinimumHeight(SplashActivity.getWindowHeight() / 2);
+//        plantImage.setMaxHeight(SplashActivity.getWindowHeight() / 2);
 
         // Attaching the listener to the FAB
         searchBtn.setOnClickListener(new View.OnClickListener() {
@@ -192,7 +196,7 @@ public class PlantFragment extends Fragment {
                                 break;
 
                             default:
-                                currentImageId = R.drawable.ic_placeholder_img;
+                                currentImageId = R.drawable.ic_placeholder2_img;
                                 plantImage.setImageResource(currentImageId);
                                 break;
                         }
@@ -206,7 +210,6 @@ public class PlantFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
-        System.out.println("Saving PlantFragment State.." + currentImageId);
 
         // Saving the current plant info selection to sharedprefs, will update with nutrient pump config later
         prefs.edit().putString("plantTitle", plantTitle.getText().toString()).apply();
@@ -221,12 +224,10 @@ public class PlantFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        System.out.println("Restoring PlantFragment State...");
-
         // Pulling current plant info selection from sharedprefs
         plantTitle.setText(prefs.getString("plantTitle", getString(R.string.plant_info_heading)));
         plantDescription.setText(prefs.getString("plantDescription", getString(R.string.plant_info_description)));
-        plantImage.setImageResource(prefs.getInt("plantImageId", R.drawable.ic_placeholder_img));
+        plantImage.setImageResource(prefs.getInt("plantImageId", R.drawable.ic_placeholder2_img));
     }
 
 }

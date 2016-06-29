@@ -9,7 +9,7 @@
         android:id="@+id/nav_header_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="6dp"
+        app:cardElevation="@dimen/default_toolbar_elevation"
         app:cardCornerRadius="0dp"
         android:orientation="vertical">
 

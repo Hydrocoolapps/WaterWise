@@ -126,7 +126,7 @@ public class SettingsFragment extends Fragment {
         // Store user information
         mKinveyClient.user().put("plantTitle", prefs.getString("plantTitle", getString(R.string.plant_info_heading)));
         mKinveyClient.user().put("plantDescription", prefs.getString("plantDescription", getString(R.string.plant_info_description)));
-        mKinveyClient.user().put("plantImageId", prefs.getInt("plantImageId", R.drawable.ic_placeholder_img));
+        mKinveyClient.user().put("plantImageId", prefs.getInt("plantImageId", R.drawable.ic_placeholder2_img));
 
         mKinveyClient.user().update(new KinveyUserCallback() {
             @Override
