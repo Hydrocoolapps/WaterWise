@@ -4,6 +4,10 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
 
+    <!-- Settings screen strings -->
+    <string name="application_settings">Application Settings</string>
+    <string name="enable_notifications">Enable Notifications</string>
+
     <!-- Welcome screen and log in strings -->
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>

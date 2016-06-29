@@ -33,4 +33,9 @@
         <item name="android:background">@drawable/background_splash</item>
     </style>
 
+    <style name="MySwitch" parent="Theme.AppCompat.Light">
+        <!-- active thumb & track color (30% transparency) -->
+        <item name="colorControlActivated">@color/colorAccent</item>
+    </style>
+
 </resources>
