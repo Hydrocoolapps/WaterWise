@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:background="@color/backgroundColor" >
+
+    <TextView
+        android:id="@+id/power_dialog_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/default_margin"
+        android:layout_marginBottom="@dimen/default_margin"
+        android:layout_alignParentStart="true"
+        android:gravity="center"
+        android:textSize="@dimen/subheading_size"
+        android:textStyle="bold"
+        android:text="@string/power_options_heading"/>
+
+    <RelativeLayout
+        android:id="@+id/container_system_power"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_below="@id/power_dialog_heading">
+
+        <TextView
+            android:id="@+id/system_power_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/option_all_heading"
+            android:textSize="@dimen/body_size"/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/btn_system_power"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignBaseline="@id/system_power_heading"
+            android:layout_alignParentRight="true"
+            android:theme="@style/MySwitch"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/container_lighting_power"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_below="@id/container_system_power">
+
+        <TextView
+            android:id="@+id/lighting_power_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/option_lighting_heading"
+            android:textSize="@dimen/body_size"/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/btn_lighting_power"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignBaseline="@id/lighting_power_heading"
+            android:layout_alignParentRight="true"
+            android:theme="@style/MySwitch"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/container_air_pump_power"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_below="@id/container_lighting_power">
+
+        <TextView
+            android:id="@+id/air_pump_power_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/option_air_pump_heading"
+            android:textSize="@dimen/body_size"/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/btn_air_pump_power"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignBaseline="@id/air_pump_power_heading"
+            android:layout_alignParentRight="true"
+            android:theme="@style/MySwitch"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/container_water_pump_power"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/default_margin"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_below="@id/container_air_pump_power">
+
+        <TextView
+            android:id="@+id/water_pump_power_heading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/option_water_pump_heading"
+            android:textSize="@dimen/body_size"/>
+
+        <android.support.v7.widget.SwitchCompat
+            android:id="@+id/btn_water_pump_power"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignBaseline="@id/water_pump_power_heading"
+            android:layout_alignParentRight="true"
+            android:theme="@style/MySwitch"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

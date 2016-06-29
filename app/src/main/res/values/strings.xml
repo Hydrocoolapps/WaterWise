@@ -4,6 +4,13 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
 
+    <!-- System Screen strings -->
+    <string name="power_options_heading">Power Control Options</string>
+    <string name="option_all_heading">System</string>
+    <string name="option_lighting_heading">Lighting</string>
+    <string name="option_air_pump_heading">Air Pump</string>
+    <string name="option_water_pump_heading">Water Pump</string>
+
     <!-- Settings screen strings -->
     <string name="application_settings">Application Settings</string>
     <string name="enable_notifications">Enable Notifications</string>

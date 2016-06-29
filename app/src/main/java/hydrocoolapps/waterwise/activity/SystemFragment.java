@@ -1,5 +1,6 @@
 package hydrocoolapps.waterwise.activity;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,7 +13,11 @@ import android.widget.Toast;
 import hydrocoolapps.waterwise.R;
 public class SystemFragment extends Fragment{
 
-    private Context context; // Need the context of the application for the toast message
+    private Context context;
+    private SystemFragment current;
+    private FragmentManager fm;
+    private PowerDialogFragment powerDialog;
+    private static final int POWER_DIALOG_FRAGMENT = 1;
 
     public SystemFragment() {
         // Constructor for the fragment class
@@ -31,17 +36,23 @@ public class SystemFragment extends Fragment{
         View rootView = inflater.inflate(R.layout.fragment_system, container, false);
         context = getActivity().getApplicationContext();
 
-        // Instantiate the FAB and then add an action listener to it
+        current = this;
+        fm = getActivity().getFragmentManager();
 
+        powerDialog = new PowerDialogFragment();
+
+        // Instantiate the FAB
         powerBtn = (FloatingActionButton) rootView.findViewById(R.id.system_fab);
 
+        // OnClickListener for FAB
         powerBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
-                // What to do on click by default Toast an Okay message
 
-                Toast.makeText(context, "System FAB Okay!", Toast.LENGTH_SHORT).show();
+                // Launching the power options dialog
+                powerDialog.setTargetFragment(current, POWER_DIALOG_FRAGMENT);
+                powerDialog.show(fm, "fragment_power_dialog");
             }
         });
 
