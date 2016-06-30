@@ -160,22 +160,32 @@ public class WelcomeActivity extends AppCompatActivity {
                                     mKinveyClient.user().put("plantTitle", getString(R.string.plant_info_heading));
                                     mKinveyClient.user().put("plantDescription", getString(R.string.plant_info_description));
                                     mKinveyClient.user().put("plantImageId", R.drawable.ic_placeholder2_img);
+                                    mKinveyClient.user().put("enableNotifications", false);
 
-                                    // Dismiss dialog and go to the new activity
-                                    new android.os.Handler().postDelayed(
-                                            new Runnable() {
-                                                public void run() {
+                                    mKinveyClient.user().update(new KinveyUserCallback() {
+                                        @Override
+                                        public void onSuccess(User user) {
 
-                                                    progressDialog.dismiss();
+                                            // Dismiss dialog and go to the new activity
+                                            new android.os.Handler().postDelayed(
+                                                    new Runnable() {
+                                                        public void run() {
 
-                                                    CharSequence text = mKinveyClient.user().getUsername() + "\nyour account has been created.";
-                                                    Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+                                                            progressDialog.dismiss();
 
-                                                    Intent intent = new Intent(context, SystemActivity.class);
-                                                    startActivity(intent);
-                                                    finish();
-                                                }
-                                            }, 2000);
+                                                            CharSequence text = mKinveyClient.user().getUsername() + "\nYour account has been created.";
+                                                            Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+
+                                                            Intent intent = new Intent(context, SystemActivity.class);
+                                                            startActivity(intent);
+                                                            finish();
+                                                        }
+                                                    }, 2000);
+                                        }
+
+                                        @Override
+                                        public void onFailure(Throwable throwable) { }
+                                    });
 
                                 }
                             });
@@ -218,7 +228,7 @@ public class WelcomeActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(User u) {
 
-                                    getDatabaseInfo();
+                                    getDatabaseInfo(u);
 
                                     // Dismiss dialog
                                     new android.os.Handler().postDelayed(
@@ -334,13 +344,31 @@ public class WelcomeActivity extends AppCompatActivity {
                                             mKinveyClient.user().put("plantTitle", getString(R.string.plant_info_heading));
                                             mKinveyClient.user().put("plantDescription", getString(R.string.plant_info_description));
                                             mKinveyClient.user().put("plantImageId", R.drawable.ic_placeholder2_img);
+                                            mKinveyClient.user().put("enableNotifications", false);
 
-                                            CharSequence text = u.getUsername() + "\nyour account has been created.";
-                                            Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+                                            mKinveyClient.user().update(new KinveyUserCallback() {
+                                                @Override
+                                                public void onSuccess(User user) {
 
-                                            Intent intent = new Intent(context, SystemActivity.class);
-                                            startActivity(intent);
-                                            finish();
+                                                    // Dismiss dialog and go to the new activity
+                                                    new android.os.Handler().postDelayed(
+                                                            new Runnable() {
+                                                                public void run() {
+
+                                                                    CharSequence text = mKinveyClient.user().getUsername() + "\nYour account has been created.";
+                                                                    Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+
+                                                                    Intent intent = new Intent(context, SystemActivity.class);
+                                                                    startActivity(intent);
+                                                                    finish();
+
+                                                                }
+                                                            }, 2000);
+                                                }
+
+                                                @Override
+                                                public void onFailure(Throwable throwable) { }
+                                            });
                                         }
                                     });
                         }
@@ -360,10 +388,10 @@ public class WelcomeActivity extends AppCompatActivity {
         }
     }
 
-    private void getDatabaseInfo() {
+    private void getDatabaseInfo(User u) {
         // Getting account database information
-        plantTitle = mKinveyClient.user().get("plantTitle").toString();
-        plantDescription = mKinveyClient.user().get("plantDescription").toString();
+        plantTitle = u.get("plantTitle").toString();
+        plantDescription = u.get("plantDescription").toString();
 
         switch (plantTitle) {
 
@@ -384,6 +412,7 @@ public class WelcomeActivity extends AppCompatActivity {
         prefs.edit().putString("plantTitle", plantTitle).commit();
         prefs.edit().putString("plantDescription", plantDescription).commit();
         prefs.edit().putInt("plantImageId", plantImageId).commit();
+        prefs.edit().putBoolean("enableNotifications", (Boolean) u.get("enableNotifications")).commit();
     }
 
 }
