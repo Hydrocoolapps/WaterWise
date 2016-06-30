@@ -230,6 +230,3 @@ public class PlantFragment extends Fragment {
     }
 
 }
-
-
-

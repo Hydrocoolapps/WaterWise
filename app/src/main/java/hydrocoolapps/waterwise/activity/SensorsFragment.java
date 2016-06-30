@@ -65,6 +65,6 @@ public class SensorsFragment extends Fragment {
                 Toast.makeText(context, "Refresh Okay!", Toast.LENGTH_SHORT).show();
                 mSwipeRefreshLayout.setRefreshing(false);
             }
-        }, 3000);
+        }, 2000);
     }
 }

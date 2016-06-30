@@ -52,6 +52,8 @@ public class AccountFragment extends Fragment {
     private User currentUser;
     private UserLookup criteria;
 
+    private static String ipAddress;
+
     public AccountFragment() {
         // Empty Constructor
     }

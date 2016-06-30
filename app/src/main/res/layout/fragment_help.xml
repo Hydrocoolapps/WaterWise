@@ -84,6 +84,24 @@
                 android:text="@string/ans_3"
                 android:textSize="@dimen/body2_size"/>
 
+            <TextView
+                android:id="@+id/faq_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin"
+                android:text="@string/faq_4"
+                android:textStyle="bold"
+                android:textSize="@dimen/body_size"/>
+
+            <TextView
+                android:id="@+id/ans_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
+                android:text="@string/ans_4"
+                android:textSize="@dimen/body2_size"/>
+
             <Button style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

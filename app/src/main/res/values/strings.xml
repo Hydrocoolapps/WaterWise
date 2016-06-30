@@ -10,6 +10,8 @@
     <string name="option_lighting_heading">Lighting</string>
     <string name="option_air_pump_heading">Air Pump</string>
     <string name="option_water_pump_heading">Water Pump</string>
+    <string name="btn_set_power_options">Done</string>
+    <string name="btn_power_option_cancel">Cancel</string>
 
     <!-- Settings screen strings -->
     <string name="application_settings">Application Settings</string>
@@ -69,6 +71,9 @@
 
     <string name="faq_3">How often should I drain the system?</string>
     <string name="ans_3">Please refer to the Plant Information screen for your plant.</string>
+
+    <string name="faq_4">How do I refresh the sensor readings?</string>
+    <string name="ans_4">Drag down to refresh the sensor readings.</string>
 
     <!-- About screen strings -->
     <string name="developer_name">Hydrocoolapps</string>

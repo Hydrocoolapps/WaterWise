@@ -11,10 +11,8 @@
         android:id="@+id/power_dialog_heading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/default_margin"
-        android:layout_marginBottom="@dimen/default_margin"
+        android:layout_margin="@dimen/default_margin"
         android:layout_alignParentStart="true"
-        android:gravity="center"
         android:textSize="@dimen/subheading_size"
         android:textStyle="bold"
         android:text="@string/power_options_heading"/>
@@ -124,6 +122,29 @@
             android:layout_alignBaseline="@id/water_pump_power_heading"
             android:layout_alignParentRight="true"
             android:theme="@style/MySwitch"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/btn_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@id/container_water_pump_power">
+
+        <Button style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:id="@+id/btn_set_power_options"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:text="@string/btn_set_power_options"/>
+
+        <Button style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:id="@+id/btn_cancel_power_options"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_toLeftOf="@id/btn_set_power_options"
+            android:text="@string/btn_power_option_cancel" />
 
     </RelativeLayout>
 
