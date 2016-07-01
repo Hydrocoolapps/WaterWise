@@ -1,4 +1,5 @@
 package hydrocoolapps.waterwise.activity;
+
 import android.os.Bundle;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -14,7 +15,6 @@ import hydrocoolapps.waterwise.R;
 
 public class SystemActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
 
-    private String fragmentName;
     private Toolbar myToolbar;
     private FragmentDrawer drawerFragment;
     private FragmentManager fragmentManager;

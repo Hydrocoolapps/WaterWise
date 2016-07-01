@@ -53,6 +53,7 @@
     <string name="btn_cancel">Cancel</string>
 
     <!-- Sensor screen strings -->
+    <string name="instructions">Pull Down to Refresh</string>
     <string name="default_reading">Sensor Value</string>
     <string name="timestamp">Timestamp</string>
     <string name="ph_sensor_heading">PH</string>

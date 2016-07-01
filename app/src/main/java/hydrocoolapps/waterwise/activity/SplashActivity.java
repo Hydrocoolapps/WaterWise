@@ -14,30 +14,16 @@ import com.kinvey.android.Client;
 // Activity to throw up a splash screen while I do some other stuff in the background
 public class SplashActivity extends AppCompatActivity {
 
-    private Point size;
-    private Display display;
     private Context context;
     private Handler handler;
 
-    private static int windowWidth, windowHeight;
+    public static Boolean firstStart;
 
     private static Client mKinveyClient;
-    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        display = getWindowManager().getDefaultDisplay();
-        size = new Point();
-
-        display.getSize(size);
-        windowWidth = size.x;
-        windowHeight = size.y;
-
-
-        // Getting application data
-        prefs = getSharedPreferences("WaterWise", 0);
 
         // Using a handler to delay the activity switch
         handler = new Handler();
@@ -65,12 +51,11 @@ public class SplashActivity extends AppCompatActivity {
         return mKinveyClient;
     }
 
-    public static int getWindowWidth() { return windowWidth; }
-    public static int getWindowHeight() { return windowHeight; }
-
     private Runnable goLogin = new Runnable() {
 
         public void run() {
+
+            firstStart = true;
 
             Intent intent = new Intent(context, WelcomeActivity.class);
             startActivity(intent);
@@ -80,6 +65,8 @@ public class SplashActivity extends AppCompatActivity {
     private Runnable goSystem = new Runnable() {
 
         public void run() {
+
+            firstStart = false;
 
             Intent intent = new Intent(context, SystemActivity.class);
             startActivity(intent);

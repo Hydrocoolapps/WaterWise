@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,6 +26,7 @@ public class SensorsFragment extends Fragment {
     private Handler handler;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
+    private TextView instructions;
     private TextView phReading, ecReading,waterTempReading, waterLevelReading, humidityReading;
     private TextView phTimestamp, ecTimestamp, waterTempTimestamp, waterLevelTimestamp, humidityTimestamp;
 
@@ -47,6 +47,8 @@ public class SensorsFragment extends Fragment {
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.sensor_layout);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
+        instructions = (TextView) view.findViewById(R.id.instructions);
+
         phReading = (TextView) view.findViewById(R.id.ph_sensor_value);
         ecReading = (TextView) view.findViewById(R.id.ec_sensor_value);
         waterTempReading = (TextView) view.findViewById(R.id.h20_sensor_value);
@@ -59,10 +61,16 @@ public class SensorsFragment extends Fragment {
         waterLevelTimestamp = (TextView) view.findViewById(R.id.water_level_sensor_timestamp);
         humidityTimestamp = (TextView) view.findViewById(R.id.humidity_sensor_timestamp);
 
+        if (!SplashActivity.firstStart)
+            instructions.setVisibility(View.GONE);
+
         // Adding on refresh listener
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+
+                if (instructions.isEnabled())
+                    instructions.setVisibility(View.GONE);
 
                 // Do some stuff, then update.
                 time = getFormattedTime();
@@ -70,7 +78,6 @@ public class SensorsFragment extends Fragment {
                 update();
             }
         });
-
     }
 
     @Override
@@ -93,7 +100,7 @@ public class SensorsFragment extends Fragment {
                 humidityTimestamp.setText(time);
 
             }
-        }, 2000);
+        }, 1500);
     }
 
     // Method to create a timestamp
@@ -101,7 +108,7 @@ public class SensorsFragment extends Fragment {
         Calendar cal = Calendar.getInstance();
 
         Date currentLocalTime = cal.getTime();
-        DateFormat date = new SimpleDateFormat("KK:mm:ss a");
+        DateFormat date = new SimpleDateFormat("hh:mm a");
         String localTime = date.format(currentLocalTime);
 
         return localTime;
