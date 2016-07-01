@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context="hydrocoolapps.waterwise.activity.PlantFragment"
     android:background="@color/backgroundColor">
 
     <android.support.v7.widget.CardView
@@ -21,28 +19,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <RelativeLayout
-                android:id="@+id/container_plant_info_image"
+            <ImageView
+                android:id="@+id/plant_info_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:orientation="vertical" >
-
-                <ImageView
-                    android:id="@+id/plant_info_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_placeholder2_img"/>
-
-            </RelativeLayout>
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_placeholder2_img"/>
 
             <TextView
                 android:id="@+id/plant_info_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_margin"
-                android:layout_below="@id/container_plant_info_image"
+                android:layout_below="@id/plant_info_image"
                 android:textSize="@dimen/headline_size"
                 android:textStyle="bold"
                 android:text="@string/plant_info_heading" />

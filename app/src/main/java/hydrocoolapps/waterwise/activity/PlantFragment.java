@@ -49,45 +49,36 @@ public class PlantFragment extends Fragment {
 
     private SharedPreferences prefs;
 
-
     // Using ints to provide selection of which DialogFragment to inflate
     private static final int SEARCH_DIALOG_FRAGMENT = 1;
     private static final int RESULTS_DIALOG_FRAGMENT = 2;
 
-    public PlantFragment() {
-        // Empty Constructor
-    }
+    public PlantFragment() {}
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    // Using onCreateView for Fragments
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_plant, container, false);
+    }
 
-        View rootView = inflater.inflate(R.layout.fragment_plant, container, false);
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+
+        current = this;
         prefs = getActivity().getSharedPreferences("WaterWise", 0);
-
         context = getActivity().getApplicationContext();
         mKinveyClient = SplashActivity.getClient();
 
-        // Instantiate the search dialog, results dialog, and get the fragment manager
-        current = this;
         fm = getActivity().getFragmentManager();
         searchDialog = new SearchDialogFragment();
         resultsDialog = new ResultsDialogFragment();
 
         // Instantiate the XML elements I will be using
-        plantTitle = (TextView) rootView.findViewById(R.id.plant_info_heading);
-        plantImage = (ImageView) rootView.findViewById(R.id.plant_info_image);
-        plantDescription = (TextView) rootView.findViewById(R.id.plant_description);
-        searchBtn = (FloatingActionButton) rootView.findViewById(R.id.plant_fab);
+        plantTitle = (TextView) view.findViewById(R.id.plant_info_heading);
+        plantImage = (ImageView) view.findViewById(R.id.plant_info_image);
+        plantDescription = (TextView) view.findViewById(R.id.plant_description);
+        searchBtn = (FloatingActionButton) view.findViewById(R.id.plant_fab);
         currentImageId = -1;
 
-//        plantImage.setMinimumHeight(SplashActivity.getWindowHeight() / 2);
-//        plantImage.setMaxHeight(SplashActivity.getWindowHeight() / 2);
 
         // Attaching the listener to the FAB
         searchBtn.setOnClickListener(new View.OnClickListener() {
@@ -99,8 +90,8 @@ public class PlantFragment extends Fragment {
             }
         });
 
-        return rootView;
     }
+
 
     // Method to get data from Intent after returning from either of the dialogs
     @Override
@@ -214,7 +205,7 @@ public class PlantFragment extends Fragment {
         prefs.edit().putString("plantTitle", plantTitle.getText().toString()).apply();
         prefs.edit().putString("plantDescription", plantDescription.getText().toString()).apply();
 
-        // Had to set if flag to keep the saved image id from being overidden if the user did not search a new plant
+        // Had to set if flag to keep the saved image id from being overridden if the user did not search a new plant
         if (currentImageId != -1)
             prefs.edit().putInt("plantImageId", currentImageId).apply();
     }

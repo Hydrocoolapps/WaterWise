@@ -1,42 +1,153 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="hydrocoolapps.waterwise.activity.SystemFragment"
-    android:background="@color/backgroundColor" >
+    android:background="@color/backgroundColor">
 
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/default_margin"
+        app:cardElevation="@dimen/default_card_elevation"
+        app:cardCornerRadius="@dimen/default_tile_corner_radius"
+        android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/label"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="100dp"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textSize="45dp"
-        android:text="@string/title_system"
-        android:textStyle="bold"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <TextView
-        android:layout_below="@+id/label"
-        android:layout_centerInParent="true"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="12dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
-        android:text="Edit fragment_system.xml to change the appearance" />
+            <ImageView
+                android:id="@+id/system_image"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_system_img"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/system_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_settings_power_white_24dp"
-        android:layout_margin="@dimen/fab_margin"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true">
+            <TextView
+                android:id="@+id/system_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin"
+                android:layout_below="@id/system_image"
+                android:textSize="@dimen/headline_size"
+                android:textStyle="bold"
+                android:text="@string/system_heading" />
 
-    </android.support.design.widget.FloatingActionButton>
+            <TextView
+                android:id="@+id/system_status_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/system_heading"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/default_margin"
+
+                android:textStyle="bold"
+                android:textSize="@dimen/subheading_size"
+                android:text="@string/system_power" />
+
+            <TextView
+                android:id="@+id/system_status_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/system_heading"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_alignParentEnd="true"
+
+                android:textSize="@dimen/subheading_size" />
+
+            <TextView
+                android:id="@+id/lighting_status_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/system_status_heading"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/default_margin"
+
+                android:textStyle="bold"
+                android:textSize="@dimen/subheading_size"
+                android:text="@string/lighting_power" />
+
+            <TextView
+                android:id="@+id/lighting_status_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/system_status_heading"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_alignParentEnd="true"
+
+                android:textSize="@dimen/subheading_size" />
+
+            <TextView
+                android:id="@+id/air_pump_status_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lighting_status_heading"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/default_margin"
+
+                android:textStyle="bold"
+                android:textSize="@dimen/subheading_size"
+                android:text="@string/air_pump_power" />
+
+            <TextView
+                android:id="@+id/air_pump_status_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lighting_status_heading"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_alignParentEnd="true"
+
+                android:textSize="@dimen/subheading_size" />
+
+            <TextView
+                android:id="@+id/water_pump_status_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/air_pump_status_heading"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/default_margin"
+
+                android:textStyle="bold"
+                android:textSize="@dimen/subheading_size"
+                android:text="@string/water_pump_power" />
+
+            <TextView
+                android:id="@+id/water_pump_status_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/air_pump_status_heading"
+                android:layout_marginLeft="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_alignParentEnd="true"
+
+                android:textSize="@dimen/subheading_size" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/system_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_settings_power_white_24dp"
+                android:layout_margin="@dimen/fab_margin"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true">
+
+            </android.support.design.widget.FloatingActionButton>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
 
 </RelativeLayout>

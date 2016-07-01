@@ -35,9 +35,7 @@ public class FragmentDrawer extends Fragment {
     private static String[] titles = null;
     private FragmentDrawerListener drawerListener;
 
-    public FragmentDrawer() {
-
-    }
+    public FragmentDrawer() {}
 
     public void setDrawerListener(FragmentDrawerListener listener) {
         this.drawerListener = listener;
@@ -59,20 +57,22 @@ public class FragmentDrawer extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        context = getActivity().getApplicationContext();
-
-        // drawer labels
-        titles = getActivity().getResources().getStringArray(R.array.nav_drawer_labels);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflating view layout
-        View layout = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
-        recyclerView = (RecyclerView) layout.findViewById(R.id.drawerList);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+    }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+
+        context = getActivity().getApplicationContext();
+
+        // Get drawer labels
+        titles = getActivity().getResources().getStringArray(R.array.nav_drawer_labels);
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.drawerList);
         adapter = new NavigationDrawerAdapter(getActivity(), getData());
 
         recyclerView.setAdapter(adapter);
@@ -90,7 +90,6 @@ public class FragmentDrawer extends Fragment {
             }
         }));
 
-        return layout;
     }
 
 

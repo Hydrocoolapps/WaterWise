@@ -19,14 +19,15 @@ public class SearchDialogFragment extends DialogFragment {
     private EditText mEditText;
     private Button btnSearch, btnCancel;
 
-    public SearchDialogFragment() {
-        //Empty
+    public SearchDialogFragment() {}
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_search_dialog, container);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search_dialog, container);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
 
         // Initializing XML elements I will be using
         inputLayoutSearch = (TextInputLayout) view.findViewById(R.id.input_layout_search);
@@ -58,8 +59,5 @@ public class SearchDialogFragment extends DialogFragment {
                 dismiss();
             }
         });
-        
-        return view;
     }
-
 }

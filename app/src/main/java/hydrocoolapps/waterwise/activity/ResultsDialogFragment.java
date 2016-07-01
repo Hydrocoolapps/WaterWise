@@ -18,15 +18,15 @@ public class ResultsDialogFragment extends DialogFragment {
     private ListView resultsList;
     private String[] searchResults;
 
-    public ResultsDialogFragment() {
-        //Empty
+    public ResultsDialogFragment() {}
+
+    @Override
+    public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_results_dialog, container);
     }
 
     @Override
-    public View onCreateView (LayoutInflater inflater, ViewGroup container,
-                              Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.fragment_results_dialog, container);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
 
         // Get the string array passed to this dialog as an argument
         searchResults = getArguments().getStringArray("searchResults");
@@ -52,9 +52,5 @@ public class ResultsDialogFragment extends DialogFragment {
                 dismiss();
             }
         });
-
-        return view;
-
     }
-
 }

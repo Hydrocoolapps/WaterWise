@@ -27,24 +27,21 @@ public class SettingsFragment extends Fragment {
     private SharedPreferences prefs;
     private Client mKinveyClient;
 
-    public SettingsFragment() {
-        // Empty Constructor
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+    public SettingsFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
+        return inflater.inflate(R.layout.fragment_settings, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
 
         mKinveyClient = SplashActivity.getClient();
         prefs = getActivity().getSharedPreferences("WaterWise", 0);
 
-        btnEnableNotifications = (SwitchCompat) rootView.findViewById(R.id.btn_enable_notifications);
-        btnSignOut = (Button) rootView.findViewById(R.id.btn_signout);
+        btnEnableNotifications = (SwitchCompat) view.findViewById(R.id.btn_enable_notifications);
+        btnSignOut = (Button) view.findViewById(R.id.btn_signout);
 
         // If notifications are enabled, set the switch to on
         btnEnableNotifications.setChecked(prefs.getBoolean("enableNotifications", false));
@@ -59,13 +56,6 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) { logOut(); }
         });
-
-        return rootView;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 
     // Method to save userdata before logging out

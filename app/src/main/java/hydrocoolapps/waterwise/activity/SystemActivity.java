@@ -9,12 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 
 import hydrocoolapps.waterwise.R;
 
 public class SystemActivity extends AppCompatActivity implements FragmentDrawer.FragmentDrawerListener {
 
+    private String fragmentName;
     private Toolbar myToolbar;
     private FragmentDrawer drawerFragment;
     private FragmentManager fragmentManager;
@@ -48,7 +48,7 @@ public class SystemActivity extends AppCompatActivity implements FragmentDrawer.
     public boolean onOptionsItemSelected(MenuItem item) { return super.onOptionsItemSelected(item); }
 
     @Override
-    public void onDrawerItemSelected(View view, int position) { displayView(position); }
+    public void onDrawerItemSelected(View view, final int position) { displayView(position); }
 
     private void displayView(int position) {
         Fragment fragment = null;
@@ -89,10 +89,10 @@ public class SystemActivity extends AppCompatActivity implements FragmentDrawer.
         }
 
         if (fragment != null) {
+
             fragmentTransaction = fragmentManager.beginTransaction();
 
             fragmentTransaction.replace(R.id.container_body, fragment).addToBackStack(fragment.getClass().getName());
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             fragmentTransaction.commit();
 
             getSupportActionBar().setTitle(title);
@@ -108,5 +108,7 @@ public class SystemActivity extends AppCompatActivity implements FragmentDrawer.
         else
             moveTaskToBack(true);
     }
+
+
 
 }

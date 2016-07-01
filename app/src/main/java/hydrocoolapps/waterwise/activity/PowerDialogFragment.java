@@ -27,10 +27,13 @@ public class PowerDialogFragment extends DialogFragment {
     public PowerDialogFragment() {}
 
     @Override
-    public View onCreateView (LayoutInflater inflater, ViewGroup container,
-                              Bundle savedInstanceState) {
+    public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_power_dialog, container);
+    }
 
-        View view = inflater.inflate(R.layout.fragment_power_dialog, container);
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+
         context = getActivity().getApplicationContext();
 
         btnSystemPower = (SwitchCompat) view.findViewById(R.id.btn_system_power);
@@ -56,7 +59,7 @@ public class PowerDialogFragment extends DialogFragment {
         if(currentPowerStatus == null)
             Toast.makeText(context, "Could not get currentPowerStatus", Toast.LENGTH_SHORT);
 
-        // Shut off all the switches if the system power switch is off
+            // Shut off all the switches if the system power switch is off
         else if (currentPowerStatus[0].equalsIgnoreCase("off")) {
 
             btnSystemPower.setChecked(false);
@@ -143,6 +146,9 @@ public class PowerDialogFragment extends DialogFragment {
                 dismiss();
             }
         });
-        return view;
+
+
     }
+
+
 }

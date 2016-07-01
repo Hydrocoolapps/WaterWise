@@ -4,12 +4,12 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Debug;
 import android.support.design.widget.FloatingActionButton;
 import android.app.Fragment;
 import android.support.v4.app.NotificationCompat;
@@ -17,18 +17,13 @@ import android.support.v4.app.TaskStackBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import android.widget.TextView;
 
 import hydrocoolapps.waterwise.R;
 import hydrocoolapps.waterwise.adapter.HttpRequestAsyncTask;
 
 public class SystemFragment extends Fragment{
 
-    private Context context;
     private Bundle bundle;
     private SharedPreferences prefs;
     private SystemFragment current;
@@ -36,10 +31,12 @@ public class SystemFragment extends Fragment{
     private PowerDialogFragment powerDialog;
     private FloatingActionButton powerBtn;
 
+    private int colorAccent, colorDefault;
     private String ipAddress;
     private String[] currentPowerStatus;
 
-
+    private TextView systemStatusValue, lightingStatusValue, airPumpStatusValue, waterPumpStatusValue;
+/*
     private Bitmap bm;
     private Intent notificationIntent;
 
@@ -48,35 +45,38 @@ public class SystemFragment extends Fragment{
     private NotificationCompat.Builder mBuilder;
     private TaskStackBuilder stackBuilder;
 
+*/
 
     private Bundle args;
 
     private HttpRequestAsyncTask httpRequestAsyncTask;
 
     private static final int POWER_DIALOG_FRAGMENT = 1;
-    private static final int DEFAULT_PORT_NUMBER = 80;
 
     public SystemFragment() {} // Constructor for the fragment class
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_system, container, false);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View rootView = inflater.inflate(R.layout.fragment_system, container, false);
-        context = getActivity().getApplicationContext();
+    public void onViewCreated(View view, Bundle savedInstanceState) {
 
         current = this;
         fm = getActivity().getFragmentManager();
 
-        // Instantiate the FAB
-        powerBtn = (FloatingActionButton) rootView.findViewById(R.id.system_fab);
-
         prefs = getActivity().getSharedPreferences("WaterWise", 0);
         ipAddress = prefs.getString("ip", null);
+
+        powerBtn = (FloatingActionButton) view.findViewById(R.id.system_fab);
+        systemStatusValue = (TextView) view.findViewById(R.id.system_status_value);
+        lightingStatusValue = (TextView) view.findViewById(R.id.lighting_status_value);
+        airPumpStatusValue = (TextView) view.findViewById(R.id.air_pump_status_value);
+        waterPumpStatusValue = (TextView) view.findViewById(R.id.water_pump_status_value);
+
+        colorDefault = systemStatusValue.getTextColors().getDefaultColor();
+        colorAccent = getActivity().getResources().getColor(R.color.colorAccent);
 
         // Getting last saved power config, will overwrite with http result
         currentPowerStatus = new String[4];
@@ -90,31 +90,42 @@ public class SystemFragment extends Fragment{
 
 
 
+        // Update system status with corrected power status
+        updateStatus();
+
+
         // notification code
-        // The large icon for the notification only accepts a bitmap
-        bm = BitmapFactory.decodeResource(getResources(), R.drawable.ic_logo);
+/*
+        if (prefs.getBoolean("enableNotifications", false)) {
 
-        // Creating a test notification
-        mBuilder = new NotificationCompat.Builder(context)
-                        .setAutoCancel(true)
-                        .setSmallIcon(R.drawable.ic_small_notificaiton)
-                        .setLargeIcon(bm)
-                        .setContentTitle("Come back!")
-                        .setContentText("Click this notification to return to the System Fragment");
+            // The large icon for the notification only accepts a bitmap
+            bm = BitmapFactory.decodeResource(getResources(), R.drawable.ic_logo);
 
-        // Creating the intent to direct the user when the notification is tapped
-        notificationIntent = new Intent(context, SplashActivity.class);
+            // Creating a test notification
+            mBuilder = new NotificationCompat.Builder(context)
+                    .setAutoCancel(true)
+                    .setSmallIcon(R.drawable.ic_small_notificaiton)
+                    .setLargeIcon(bm)
+                    .setContentTitle("Come back!")
+                    .setContentText("Click this notification to return to the System Fragment");
 
-        stackBuilder = TaskStackBuilder.create(context);
-        stackBuilder.addParentStack(SystemActivity.class);
-        stackBuilder.addNextIntent(notificationIntent);
+            // Creating the intent to direct the user when the notification is tapped
+            notificationIntent = new Intent(context, SplashActivity.class);
 
-        notificationPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+            stackBuilder = TaskStackBuilder.create(context);
+            stackBuilder.addParentStack(SystemActivity.class);
+            stackBuilder.addNextIntent(notificationIntent);
 
-        // Setting up the return to the application
-        mBuilder.setContentIntent(notificationPendingIntent);
-        mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
 
+            // Setting up the return to the application
+            mBuilder.setContentIntent(notificationPendingIntent);
+            mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            // Signaling the notification
+            mNotificationManager.notify(0, mBuilder.build());
+        }
+*/
 
         // OnClickListener for FAB to launch power options dialog
         powerBtn.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +148,6 @@ public class SystemFragment extends Fragment{
             }
         });
 
-        return rootView;
     }
 
     @Override
@@ -152,6 +162,8 @@ public class SystemFragment extends Fragment{
             bundle = data.getExtras();
             currentPowerStatus = bundle.getStringArray("newPowerStatus");
 
+            updateStatus();
+
             if (currentPowerStatus == null)
                 return;
 
@@ -164,19 +176,33 @@ public class SystemFragment extends Fragment{
 
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
+    // Method to update the current system status
+    public void updateStatus() {
 
-        // For testing purposes, thow a notification anytime the system fragment is paused
-        System.out.println("onPause() called");
+        systemStatusValue.setText(currentPowerStatus[0].toUpperCase());
+        lightingStatusValue.setText(currentPowerStatus[1].toUpperCase());
+        airPumpStatusValue.setText(currentPowerStatus[2].toUpperCase());
+        waterPumpStatusValue.setText(currentPowerStatus[3].toUpperCase());
 
-        // Signaling the notification
-        if (prefs.getBoolean("enableNotifications", false))
-            mNotificationManager.notify(0, mBuilder.build());
-
+        if (systemStatusValue.getText().equals("ON"))
+            systemStatusValue.setTextColor(colorAccent);
         else
-            System.out.println("Notifications not enabled");
+            systemStatusValue.setTextColor(colorDefault);
+
+        if (lightingStatusValue.getText().equals("ON"))
+            lightingStatusValue.setTextColor(colorAccent);
+        else
+            lightingStatusValue.setTextColor(colorDefault);
+
+        if(airPumpStatusValue.getText().equals("ON"))
+            airPumpStatusValue.setTextColor(colorAccent);
+        else
+            airPumpStatusValue.setTextColor(colorDefault);
+
+        if(waterPumpStatusValue.getText().equals("ON"))
+            waterPumpStatusValue.setTextColor(colorAccent);
+        else
+            waterPumpStatusValue.setTextColor(colorDefault);
     }
 
 }
