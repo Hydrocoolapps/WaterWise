@@ -22,7 +22,6 @@ public class HttpRequestAsyncTask extends AsyncTask<Void, Void, Void> {
     // declare variables needed
     private String requestReply,ipAddress, portNumber;
     private Context context;
-    private AlertDialog alertDialog;
     private String parameter;
     private String parameterValue;
 
@@ -36,11 +35,6 @@ public class HttpRequestAsyncTask extends AsyncTask<Void, Void, Void> {
     public HttpRequestAsyncTask(Context context, String parameterValue, String ipAddress, String portNumber, String parameter)
     {
         this.context = context;
-
-        alertDialog = new AlertDialog.Builder(this.context)
-                .setTitle("HTTP Response From IP Address:")
-                .setCancelable(true)
-                .create();
 
         this.ipAddress = ipAddress;
         this.parameterValue = parameterValue;
@@ -56,12 +50,7 @@ public class HttpRequestAsyncTask extends AsyncTask<Void, Void, Void> {
      */
     @Override
     protected Void doInBackground(Void... voids) {
-        alertDialog.setMessage("Data sent, waiting for reply from server...");
-        if(!alertDialog.isShowing())
-        {
-            alertDialog.show();
-        }
-        requestReply = sendRequest(parameterValue,ipAddress,portNumber, parameter);
+        requestReply = sendRequest();
         return null;
     }
 
@@ -74,11 +63,6 @@ public class HttpRequestAsyncTask extends AsyncTask<Void, Void, Void> {
      */
     @Override
     protected void onPostExecute(Void aVoid) {
-        alertDialog.setMessage(requestReply);
-        if(!alertDialog.isShowing())
-        {
-            alertDialog.show(); // show dialog
-        }
     }
 
     /**
@@ -88,30 +72,36 @@ public class HttpRequestAsyncTask extends AsyncTask<Void, Void, Void> {
      */
     @Override
     protected void onPreExecute() {
-        alertDialog.setMessage("Sending data to server, please wait...");
-        if(!alertDialog.isShowing())
-        {
-            alertDialog.show();
-        }
     }
 
-    public String sendRequest(String parameterValue, String ipAddress, String portNumber, String parameterName) {
+    public String sendRequest() {
         String serverResponse = "ERROR";
 
         try {
 
             HttpClient httpclient = new DefaultHttpClient(); // create an HTTP client
             // define the URL e.g. http://myIpaddress:myport/?pin=13 (to toggle pin 13 for example)
-            URI website = new URI("http://"+ipAddress+":"+portNumber+"/?"+parameterName+"="+parameterValue);
+            URI website = new URI("http://"+ipAddress+":"+portNumber+"/?"+parameter+"="+parameterValue);
             HttpGet getRequest = new HttpGet(); // create an HTTP GET object
             getRequest.setURI(website); // set the URL of the GET request
+
+            //getRequest.setHeader("Connection", "close");
+
+            System.out.println("http://"+ipAddress+":"+portNumber+"/?"+parameter+"="+parameterValue);
+
+            getRequest.setHeader("User-Agent", "WaterWise Mobile Application");
+            getRequest.setHeader("Accept-Encoding", "gzip, deflate, sdch");
+            getRequest.setHeader("Accept-Language", "en-US, en;q=0.8");
+
             HttpResponse response = httpclient.execute(getRequest); // execute the request
             // get the ip address server's reply
+
             InputStream content = null;
             content = response.getEntity().getContent();
             BufferedReader in = new BufferedReader(new InputStreamReader(
                     content
             ));
+
             serverResponse = in.readLine();
             // Close the connection
             content.close();
@@ -128,8 +118,13 @@ public class HttpRequestAsyncTask extends AsyncTask<Void, Void, Void> {
             serverResponse = e.getMessage();
             e.printStackTrace();
         }
+
+        System.out.println(serverResponse);
+
         // return the server's reply/response text
         return serverResponse;
     }
+
+    public String getReply() { return requestReply; }
 
 }

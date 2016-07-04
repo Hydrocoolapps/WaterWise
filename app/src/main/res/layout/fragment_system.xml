@@ -42,6 +42,7 @@
                 android:layout_below="@id/system_heading"
                 android:layout_marginStart="20dp"
                 android:layout_marginBottom="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin"
 
                 android:textStyle="bold"
                 android:textSize="@dimen/subheading_size"

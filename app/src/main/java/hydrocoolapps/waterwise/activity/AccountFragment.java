@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.TextInputLayout;
 import android.text.TextUtils;
-import android.text.method.PasswordTransformationMethod;
-import android.text.method.TransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +25,6 @@ import com.kinvey.java.model.UserLookup;
 import java.util.regex.Pattern;
 
 import hydrocoolapps.waterwise.R;
-
 
 public class AccountFragment extends Fragment {
 
@@ -51,8 +48,6 @@ public class AccountFragment extends Fragment {
     private AsyncUserDiscovery users;
     private User currentUser;
     private UserLookup criteria;
-
-    private static String ipAddress;
 
     public AccountFragment() {
         // Empty Constructor

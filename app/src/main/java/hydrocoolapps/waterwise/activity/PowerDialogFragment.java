@@ -137,6 +137,7 @@ public class PowerDialogFragment extends DialogFragment {
                         newPowerStatus[i] = "off";
                 }
 
+
                 //Adding the response string to an intent before returning
                 Intent i = new Intent()
                         .putExtra("newPowerStatus", newPowerStatus);

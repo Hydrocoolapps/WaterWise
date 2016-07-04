@@ -1,6 +1,7 @@
 package hydrocoolapps.waterwise.activity;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
@@ -16,6 +17,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import hydrocoolapps.waterwise.R;
+import hydrocoolapps.waterwise.adapter.HttpRequestAsyncTask;
 
 public class SensorsFragment extends Fragment {
 
@@ -23,12 +25,24 @@ public class SensorsFragment extends Fragment {
 
     private String time;
 
+    private HttpRequestAsyncTask request;
+    private String reply;
+    private String ipAddress;
+
+    private SharedPreferences prefs;
+
     private Handler handler;
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private TextView instructions;
     private TextView phReading, ecReading,waterTempReading, waterLevelReading, humidityReading;
     private TextView phTimestamp, ecTimestamp, waterTempTimestamp, waterLevelTimestamp, humidityTimestamp;
+
+    private final String PIN_PARAMETER = "pin";
+    private final String PORT_NUMBER = "80";
+    private final String SENSOR_REQUEST = "1";
+
+
 
     public SensorsFragment() {}
 
@@ -48,6 +62,9 @@ public class SensorsFragment extends Fragment {
         mSwipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
 
         instructions = (TextView) view.findViewById(R.id.instructions);
+
+        prefs = getActivity().getSharedPreferences("WaterWise", 0);
+        ipAddress = prefs.getString("ip", "0.0.0.0");
 
         phReading = (TextView) view.findViewById(R.id.ph_sensor_value);
         ecReading = (TextView) view.findViewById(R.id.ec_sensor_value);
@@ -75,7 +92,25 @@ public class SensorsFragment extends Fragment {
                 // Do some stuff, then update.
                 time = getFormattedTime();
 
-                update();
+                if (!ipAddress.equalsIgnoreCase("0.0.0.0")) {
+                    request = new HttpRequestAsyncTask(context, SENSOR_REQUEST, ipAddress, PORT_NUMBER, PIN_PARAMETER);
+                    request.execute();
+
+                    reply = request.getReply();
+
+                    System.out.println(reply);
+
+                    update();
+                }
+
+                else {
+
+                    mSwipeRefreshLayout.setRefreshing(false);
+
+                    instructions.setText("Please set the system ip address in account settings.");
+                    instructions.setVisibility(View.VISIBLE);
+                }
+
             }
         });
     }
