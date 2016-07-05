@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Arrays;
+
 import hydrocoolapps.waterwise.R;
 import hydrocoolapps.waterwise.adapter.HttpRequestAsyncTask;
 
@@ -32,8 +34,10 @@ public class SystemFragment extends Fragment{
     private PowerDialogFragment powerDialog;
     private FloatingActionButton powerBtn;
 
+    private Boolean sendToSystem;
     private HttpRequestAsyncTask request;
     private String reply;
+    private String[] parsedReply;
 
     private int colorAccent, colorDefault;
     private String ipAddress;
@@ -42,8 +46,6 @@ public class SystemFragment extends Fragment{
     private final String PIN_PARAMETER = "pin";
 
     private final String PORT_NUMBER = "80";
-    private final String SYSTEM_POWER_ON = "7";
-    private final String SYSTEM_POWER_OFF = "8";
     private final String LIGHTING_POWER_ON = "9";
     private final String LIGHTING_POWER_OFF = "10";
     private final String AIR_PUMP_POWER_ON = "13";
@@ -67,8 +69,6 @@ public class SystemFragment extends Fragment{
 
     private Bundle args;
 
-    private HttpRequestAsyncTask httpRequestAsyncTask;
-
     private static final int POWER_DIALOG_FRAGMENT = 1;
 
     public SystemFragment() {} // Constructor for the fragment class
@@ -81,10 +81,16 @@ public class SystemFragment extends Fragment{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
+        // Set the current fragment so we can return later
         current = this;
+
+        // Get application context
         context = getActivity().getApplicationContext();
+
+        // Get the fragment manager
         fm = getActivity().getFragmentManager();
 
+        // Need to access application data storage
         prefs = getActivity().getSharedPreferences("WaterWise", 0);
 
         powerBtn = (FloatingActionButton) view.findViewById(R.id.system_fab);
@@ -99,43 +105,70 @@ public class SystemFragment extends Fragment{
         airPumpStatusValue = (TextView) view.findViewById(R.id.air_pump_status_value);
         waterPumpStatusValue = (TextView) view.findViewById(R.id.water_pump_status_value);
 
+        // Getting the default text color, and the accented text color
         colorDefault = systemStatusValue.getTextColors().getDefaultColor();
         colorAccent = getActivity().getResources().getColor(R.color.colorAccent);
 
+        // Checking the app data storage for an ip address that was set by the user
         ipAddress = prefs.getString("ip", "0.0.0.0");
 
         // If the IP Address is not set, we can't get the current status
         if (ipAddress.equalsIgnoreCase("0.0.0.0")) {
             System.out.println("no ip found");
 
+            // Editing the view to display instructions to the user
             systemStatusHeading.setText("Please set the system ip address in account settings.");
-            lightingStatusHeading.setEnabled(false);
             lightingStatusHeading.setVisibility(View.GONE);
             airPumpStatusHeading.setVisibility(View.GONE);
             waterPumpStatusHeading.setVisibility(View.GONE);
 
+            // There are no power options to toggle if the system is not connected
             powerBtn.setEnabled(false);
         }
 
         else {
+
+            // Request the system status
             request = new HttpRequestAsyncTask(context, SYSTEM_STATUS, ipAddress, PORT_NUMBER, PIN_PARAMETER);
             request.execute();
 
+            // Get the system status as a string
             reply = request.getReply();
 
+            // The string is delimited by commas
+            parsedReply = reply.split(",");
+
+            if(Arrays.asList(parsedReply).contains("1"))
+                currentPowerStatus[0] = "ON";
+
+            else
+                currentPowerStatus[0] = "OFF";
+
+            // Set the power status from the string
+            for (int i = 1; i < 4; i++) {
+
+                if (parsedReply[i-1].equals("1"))
+                    currentPowerStatus[i] = "ON";
+
+                else
+                    currentPowerStatus[i] = "OFF";
+            }
+
+            // Bring back the headings
+            systemStatusHeading.setText(getString(R.string.system_power));
+            lightingStatusHeading.setVisibility(View.VISIBLE);
+            airPumpStatusHeading.setVisibility(View.VISIBLE);
+            waterPumpStatusHeading.setVisibility(View.VISIBLE);
+
+            // Update the system status without sending it to the system
+            sendToSystem = false;
+            updateStatus();
+
+            // Re-enable the power button
             powerBtn.setEnabled(true);
 
             System.out.println(reply);
         }
-
-        // Http request and overwrite currentPowerStatus
-
-
-
-
-        // Update system status with corrected power status
-        //updateStatus();
-
 
         // notification code
 /*
@@ -205,17 +238,12 @@ public class SystemFragment extends Fragment{
             bundle = data.getExtras();
             currentPowerStatus = bundle.getStringArray("newPowerStatus");
 
-            updateStatus();
-
-            if (!lightingStatusHeading.isEnabled()) {
-                systemStatusHeading.setText(getString(R.string.system_heading));
-                lightingStatusHeading.setVisibility(View.VISIBLE);
-                airPumpStatusHeading.setVisibility(View.VISIBLE);
-                waterPumpStatusHeading.setVisibility(View.VISIBLE);
-            }
-
             if (currentPowerStatus == null)
                 return;
+
+            // Going to update the system status and send it to the system
+            sendToSystem = true;
+            updateStatus();
 
             // Saving results to local storage
             prefs.edit().putString("systemPowerStatus", currentPowerStatus[0]).apply();
@@ -229,93 +257,102 @@ public class SystemFragment extends Fragment{
     // Method to update the current system status
     public void updateStatus() {
 
-        systemStatusValue.setText(currentPowerStatus[0].toUpperCase());
-        lightingStatusValue.setText(currentPowerStatus[1].toUpperCase());
-        airPumpStatusValue.setText(currentPowerStatus[2].toUpperCase());
-        waterPumpStatusValue.setText(currentPowerStatus[3].toUpperCase());
+        // Set the status for each component
+        systemStatusValue.setText(currentPowerStatus[0]);
+        lightingStatusValue.setText(currentPowerStatus[1]);
+        airPumpStatusValue.setText(currentPowerStatus[2]);
+        waterPumpStatusValue.setText(currentPowerStatus[3]);
 
-        if (systemStatusValue.getText().equals("ON"))
+        // Series of if else statements to handle the color of the text
+        // If the value is ON use the accent color, if the value is OFF use the default color
+        // If sendToSystem is true send an HTTP request. If false, do nothing.
+
+        if (currentPowerStatus[0].equals("ON"))
             systemStatusValue.setTextColor(colorAccent);
 
         else
             systemStatusValue.setTextColor(colorDefault);
 
-        if (lightingStatusValue.getText().equals("ON")) {
+        if (currentPowerStatus[1].equals("ON")) {
             lightingStatusValue.setTextColor(colorAccent);
 
-            new HttpRequestAsyncTask(
-                    context, LIGHTING_POWER_ON, ipAddress, PORT_NUMBER, PIN_PARAMETER
-            ).execute();
+            if (sendToSystem)
+                new HttpRequestAsyncTask(
+                        context, LIGHTING_POWER_ON, ipAddress, PORT_NUMBER, PIN_PARAMETER
+                ).execute();
         }
 
         else {
             lightingStatusValue.setTextColor(colorDefault);
 
-            new HttpRequestAsyncTask(
-                    context, LIGHTING_POWER_OFF, ipAddress, PORT_NUMBER, PIN_PARAMETER
-            ).execute();
+            if (sendToSystem)
+                new HttpRequestAsyncTask(
+                        context, LIGHTING_POWER_OFF, ipAddress, PORT_NUMBER, PIN_PARAMETER
+                ).execute();
         }
 
-        if(airPumpStatusValue.getText().equals("ON")) {
+        if(currentPowerStatus[2].equals("ON")) {
             airPumpStatusValue.setTextColor(colorAccent);
 
-            new android.os.Handler().postDelayed(
-                    new Runnable() {
-                        public void run() {
+            if (sendToSystem)
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
 
-                            new HttpRequestAsyncTask(
-                                    context, AIR_PUMP_POWER_ON, ipAddress, PORT_NUMBER, PIN_PARAMETER
-                            ).execute();
+                                new HttpRequestAsyncTask(
+                                        context, AIR_PUMP_POWER_ON, ipAddress, PORT_NUMBER, PIN_PARAMETER
+                                ).execute();
 
-                        }
-                    }, 5000);
+                            }
+                        }, 5000);
         }
 
         else {
             airPumpStatusValue.setTextColor(colorDefault);
 
-            new android.os.Handler().postDelayed(
-                    new Runnable() {
-                        public void run() {
+            if (sendToSystem)
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
 
-                            new HttpRequestAsyncTask(
-                                    context, AIR_PUMP_POWER_OFF, ipAddress, PORT_NUMBER, PIN_PARAMETER
-                            ).execute();
+                                new HttpRequestAsyncTask(
+                                        context, AIR_PUMP_POWER_OFF, ipAddress, PORT_NUMBER, PIN_PARAMETER
+                                ).execute();
 
-                        }
-                    }, 5000);
+                            }
+                        }, 5000);
         }
 
-        if(waterPumpStatusValue.getText().equals("ON")) {
+        if(currentPowerStatus[3].equals("ON")) {
             waterPumpStatusValue.setTextColor(colorAccent);
 
-            new android.os.Handler().postDelayed(
-                    new Runnable() {
-                        public void run() {
+            if (sendToSystem)
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
 
-                            new HttpRequestAsyncTask(
-                                    context, WATER_PUMP_POWER_ON, ipAddress, PORT_NUMBER, PIN_PARAMETER
-                            ).execute();
+                                new HttpRequestAsyncTask(
+                                        context, WATER_PUMP_POWER_ON, ipAddress, PORT_NUMBER, PIN_PARAMETER
+                                ).execute();
 
-                        }
-                    }, 10000);
+                            }
+                        }, 10000);
         }
 
         else {
             waterPumpStatusValue.setTextColor(colorDefault);
 
-            new android.os.Handler().postDelayed(
-                    new Runnable() {
-                        public void run() {
+            if (sendToSystem)
+                new android.os.Handler().postDelayed(
+                        new Runnable() {
+                            public void run() {
 
-                            new HttpRequestAsyncTask(
-                                    context, WATER_PUMP_POWER_OFF, ipAddress, PORT_NUMBER, PIN_PARAMETER
-                            ).execute();
+                                new HttpRequestAsyncTask(
+                                        context, WATER_PUMP_POWER_OFF, ipAddress, PORT_NUMBER, PIN_PARAMETER
+                                ).execute();
 
-                        }
-                    }, 10000);
+                            }
+                        }, 10000);
         }
-
     }
-
 }

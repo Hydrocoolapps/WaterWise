@@ -28,6 +28,7 @@ public class SensorsFragment extends Fragment {
     private HttpRequestAsyncTask request;
     private String reply;
     private String ipAddress;
+    private String[] parsedReply;
 
     private SharedPreferences prefs;
 
@@ -35,14 +36,12 @@ public class SensorsFragment extends Fragment {
     private SwipeRefreshLayout mSwipeRefreshLayout;
 
     private TextView instructions;
-    private TextView phReading, ecReading,waterTempReading, waterLevelReading, humidityReading;
-    private TextView phTimestamp, ecTimestamp, waterTempTimestamp, waterLevelTimestamp, humidityTimestamp;
+    private TextView phReading, ecReading,waterTempReading, waterLevelReading, airTempReading, humidityReading;
+    private TextView phTimestamp, ecTimestamp, waterTempTimestamp, waterLevelTimestamp, airTempTimestamp, humidityTimestamp;
 
     private final String PIN_PARAMETER = "pin";
     private final String PORT_NUMBER = "80";
     private final String SENSOR_REQUEST = "1";
-
-
 
     public SensorsFragment() {}
 
@@ -70,14 +69,17 @@ public class SensorsFragment extends Fragment {
         ecReading = (TextView) view.findViewById(R.id.ec_sensor_value);
         waterTempReading = (TextView) view.findViewById(R.id.h20_sensor_value);
         waterLevelReading = (TextView) view.findViewById(R.id.water_level_sensor_value);
+        airTempReading = (TextView) view.findViewById(R.id.air_temp_sensor_value);
         humidityReading = (TextView) view.findViewById(R.id.humidity_sensor_value);
 
         phTimestamp = (TextView) view.findViewById(R.id.ph_sensor_timestamp);
         ecTimestamp = (TextView) view.findViewById(R.id.ec_sensor_timestamp);
         waterTempTimestamp = (TextView) view.findViewById(R.id.h20_sensor_timestamp);
         waterLevelTimestamp = (TextView) view.findViewById(R.id.water_level_sensor_timestamp);
+        airTempTimestamp = (TextView) view.findViewById(R.id.air_temp_sensor_timestamp);
         humidityTimestamp = (TextView) view.findViewById(R.id.humidity_sensor_timestamp);
 
+        // If this isn't the first launch of the app on this device remove the hint
         if (!SplashActivity.firstStart)
             instructions.setVisibility(View.GONE);
 
@@ -86,27 +88,42 @@ public class SensorsFragment extends Fragment {
             @Override
             public void onRefresh() {
 
+                // If the hint was there before remove it now
                 if (instructions.isEnabled())
                     instructions.setVisibility(View.GONE);
 
-                // Do some stuff, then update.
-                time = getFormattedTime();
-
+                // Make sure the user has entered an ip address
                 if (!ipAddress.equalsIgnoreCase("0.0.0.0")) {
+
+                    // Request sensor data from the system as a string
                     request = new HttpRequestAsyncTask(context, SENSOR_REQUEST, ipAddress, PORT_NUMBER, PIN_PARAMETER);
                     request.execute();
 
+                    // Get the string
                     reply = request.getReply();
 
-                    System.out.println(reply);
+                    // Error handling
+                    if (reply.contains("ERROR"))
+                        System.out.println(reply);
 
-                    update();
+                    else {
+
+                        // String will be delimited by commas
+                        parsedReply = reply.split(",");
+
+                        // Get the timestamp for the update
+                        time = getFormattedTime();
+
+                        // Update the fields
+                        update();
+                    }
                 }
 
                 else {
 
                     mSwipeRefreshLayout.setRefreshing(false);
 
+                    // If the ip address has not been set, print instructions
                     instructions.setText("Please set the system ip address in account settings.");
                     instructions.setVisibility(View.VISIBLE);
                 }
@@ -120,7 +137,7 @@ public class SensorsFragment extends Fragment {
         super.onDetach();
     }
 
-    // This method will do some jazz while we're refreshing
+    // This method will update the fields on the screen
     private void update() {
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -128,14 +145,24 @@ public class SensorsFragment extends Fragment {
 
                 mSwipeRefreshLayout.setRefreshing(false);
 
+                // Use the server reply to set the sensor values
+                phReading.setText(parsedReply[0] + "ph");
+                ecReading.setText(parsedReply[1] + "mS/cm");
+                waterTempReading.setText(parsedReply[2] + "F");
+                waterLevelReading.setText(parsedReply[3]);
+                airTempReading.setText(parsedReply[4] + "F");
+                humidityReading.setText(parsedReply[4] + "%");
+
+                // Use the timestamp to set the timestamp values
                 phTimestamp.setText(time);
                 ecTimestamp.setText(time);
                 waterTempTimestamp.setText(time);
                 waterLevelTimestamp.setText(time);
+                airTempTimestamp.setText(time);
                 humidityTimestamp.setText(time);
 
             }
-        }, 1500);
+        }, 1000);
     }
 
     // Method to create a timestamp
@@ -148,7 +175,5 @@ public class SensorsFragment extends Fragment {
 
         return localTime;
     }
-
-
 
 }

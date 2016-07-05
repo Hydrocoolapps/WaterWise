@@ -131,10 +131,10 @@ public class PowerDialogFragment extends DialogFragment {
                 for (int i = 0; i < 4; i++) {
 
                     if(arrayBtn[i].isChecked())
-                        newPowerStatus[i] = "on";
+                        newPowerStatus[i] = "ON";
 
                     else
-                        newPowerStatus[i] = "off";
+                        newPowerStatus[i] = "OFF";
                 }
 
 

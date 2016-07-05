@@ -61,6 +61,7 @@
     <string name="water_temp_sensor_heading">Water Temperature</string>
     <string name="water_level_sensor_heading">Water Level</string>
     <string name="humidity_sensor_heading">Humidity</string>
+    <string name="air_temp_sensor_heading">Air Temperature</string>
 
     <!-- Help screen strings -->
     <string name="btn_more">More FAQs Online</string>
