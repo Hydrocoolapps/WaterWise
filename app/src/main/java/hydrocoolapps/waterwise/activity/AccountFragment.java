@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -48,6 +49,7 @@ public class AccountFragment extends Fragment {
     private AsyncUserDiscovery users;
     private User currentUser;
     private UserLookup criteria;
+    private InputMethodManager inputManager;
 
     public AccountFragment() {
         // Empty Constructor
@@ -63,6 +65,10 @@ public class AccountFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_account, container, false);
 
         context = getActivity().getApplicationContext();
+
+        inputManager = (InputMethodManager)
+                getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+
 
         prefs = getActivity().getSharedPreferences("WaterWise", 0);
 
@@ -88,6 +94,9 @@ public class AccountFragment extends Fragment {
         btnAccountUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
 
                 // Getting the entered email
                 email = updateEmail.getText().toString();
@@ -138,6 +147,9 @@ public class AccountFragment extends Fragment {
         btnSystemUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
 
                 ip = updateIP.getText().toString();
 

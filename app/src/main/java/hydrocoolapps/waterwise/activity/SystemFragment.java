@@ -109,11 +109,13 @@ public class SystemFragment extends Fragment{
         colorDefault = systemStatusValue.getTextColors().getDefaultColor();
         colorAccent = getActivity().getResources().getColor(R.color.colorAccent);
 
+        currentPowerStatus = new String[4];
+
         // Checking the app data storage for an ip address that was set by the user
         ipAddress = prefs.getString("ip", "0.0.0.0");
 
         // If the IP Address is not set, we can't get the current status
-        if (ipAddress.equalsIgnoreCase("0.0.0.0")) {
+        if (ipAddress.equals("0.0.0.0")) {
             System.out.println("no ip found");
 
             // Editing the view to display instructions to the user
@@ -124,6 +126,15 @@ public class SystemFragment extends Fragment{
 
             // There are no power options to toggle if the system is not connected
             powerBtn.setEnabled(false);
+        }
+
+        else if(ipAddress.equals("1.1.1.1")) {
+
+            for (int i = 0; i < 4; i++)
+                currentPowerStatus[i] = "OFF";
+
+            sendToSystem = false;
+            updateStatus();
         }
 
         else {

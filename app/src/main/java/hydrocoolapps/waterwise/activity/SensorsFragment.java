@@ -79,6 +79,8 @@ public class SensorsFragment extends Fragment {
         airTempTimestamp = (TextView) view.findViewById(R.id.air_temp_sensor_timestamp);
         humidityTimestamp = (TextView) view.findViewById(R.id.humidity_sensor_timestamp);
 
+        parsedReply = new String[6];
+
         // If this isn't the first launch of the app on this device remove the hint
         if (!SplashActivity.firstStart)
             instructions.setVisibility(View.GONE);
@@ -93,7 +95,28 @@ public class SensorsFragment extends Fragment {
                     instructions.setVisibility(View.GONE);
 
                 // Make sure the user has entered an ip address
-                if (!ipAddress.equalsIgnoreCase("0.0.0.0")) {
+                if (ipAddress.equals("0.0.0.0")) {
+
+                    mSwipeRefreshLayout.setRefreshing(false);
+
+                    // If the ip address has not been set, print instructions
+                    instructions.setText("Please set the system ip address in account settings.");
+                    instructions.setVisibility(View.VISIBLE);
+
+
+                }
+
+                else if (ipAddress.equals("1.1.1.1")) {
+                    for (int i = 0; i < 6; i++)
+                        parsedReply[i] = "testValue";
+
+                    time = getFormattedTime();
+
+                    update();
+                }
+
+
+                else {
 
                     // Request sensor data from the system as a string
                     request = new HttpRequestAsyncTask(context, SENSOR_REQUEST, ipAddress, PORT_NUMBER, PIN_PARAMETER);
@@ -103,7 +126,7 @@ public class SensorsFragment extends Fragment {
                     reply = request.getReply();
 
                     // Error handling
-                    if (reply.contains("ERROR"))
+                    if (reply == null || reply.contains("ERROR"))
                         System.out.println(reply);
 
                     else {
@@ -117,15 +140,6 @@ public class SensorsFragment extends Fragment {
                         // Update the fields
                         update();
                     }
-                }
-
-                else {
-
-                    mSwipeRefreshLayout.setRefreshing(false);
-
-                    // If the ip address has not been set, print instructions
-                    instructions.setText("Please set the system ip address in account settings.");
-                    instructions.setVisibility(View.VISIBLE);
                 }
 
             }
@@ -151,7 +165,7 @@ public class SensorsFragment extends Fragment {
                 waterTempReading.setText(parsedReply[2] + "F");
                 waterLevelReading.setText(parsedReply[3]);
                 airTempReading.setText(parsedReply[4] + "F");
-                humidityReading.setText(parsedReply[4] + "%");
+                humidityReading.setText(parsedReply[5] + "%");
 
                 // Use the timestamp to set the timestamp values
                 phTimestamp.setText(time);
