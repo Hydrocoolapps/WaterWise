@@ -166,6 +166,8 @@ public class WelcomeActivity extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(User user) {
 
+                                            getDatabaseInfo(user);
+
                                             // Dismiss dialog and go to the new activity
                                             new android.os.Handler().postDelayed(
                                                     new Runnable() {
@@ -186,7 +188,6 @@ public class WelcomeActivity extends AppCompatActivity {
                                         @Override
                                         public void onFailure(Throwable throwable) { }
                                     });
-
                                 }
                             });
                 }
@@ -350,6 +351,8 @@ public class WelcomeActivity extends AppCompatActivity {
                                                 @Override
                                                 public void onSuccess(User user) {
 
+                                                    getDatabaseInfo(user);
+
                                                     // Dismiss dialog and go to the new activity
                                                     new android.os.Handler().postDelayed(
                                                             new Runnable() {
@@ -375,6 +378,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
                         @Override
                         public void onSuccess(User u) {
+                            getDatabaseInfo(u);
+
                             Intent intent = new Intent(context, SystemActivity.class);
                             startActivity(intent);
                             finish();
