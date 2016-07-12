@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Arrays;
 
@@ -53,23 +54,23 @@ public class SystemFragment extends Fragment{
     private final String WATER_PUMP_POWER_ON = "11";
     private final String WATER_PUMP_POWER_OFF = "12";
     private final String SYSTEM_STATUS = "15";
+    private final String WATER_LEVEL_STATUS = "4";
 
     private TextView systemStatusValue, lightingStatusValue, airPumpStatusValue, waterPumpStatusValue;
     private TextView systemStatusHeading, lightingStatusHeading, airPumpStatusHeading, waterPumpStatusHeading;
-/*
-    private Bitmap bm;
-    private Intent notificationIntent;
 
+    private Bundle args;
+
+    private static final int POWER_DIALOG_FRAGMENT = 1;
+
+    private Bitmap bm;
+    private Boolean enableNotifications;
+    private Intent notificationIntent;
     private PendingIntent notificationPendingIntent;
     private NotificationManager mNotificationManager;
     private NotificationCompat.Builder mBuilder;
     private TaskStackBuilder stackBuilder;
 
-*/
-
-    private Bundle args;
-
-    private static final int POWER_DIALOG_FRAGMENT = 1;
 
     public SystemFragment() {} // Constructor for the fragment class
 
@@ -92,6 +93,9 @@ public class SystemFragment extends Fragment{
 
         // Need to access application data storage
         prefs = getActivity().getSharedPreferences("WaterWise", 0);
+
+        // Get whether notifications are enabled
+        enableNotifications = prefs.getBoolean("enableNotifications", false);
 
         powerBtn = (FloatingActionButton) view.findViewById(R.id.system_fab);
 
@@ -137,82 +141,127 @@ public class SystemFragment extends Fragment{
             updateStatus();
         }
 
+
+        // This will run if the ip address has been set properly
         else {
+
+            // Editing the view to display instructions to the user
+            systemStatusHeading.setText("Loading...");
+            lightingStatusHeading.setVisibility(View.GONE);
+            airPumpStatusHeading.setVisibility(View.GONE);
+            waterPumpStatusHeading.setVisibility(View.GONE);
 
             // Request the system status
             request = new HttpRequestAsyncTask(context, SYSTEM_STATUS, ipAddress, PORT_NUMBER, PIN_PARAMETER);
             request.execute();
 
-            // Get the system status as a string
-            reply = request.getReply();
+            // Wait for the request to finish, then get the reply.
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+                            // Get the system status as a string
+                            reply = request.getReply();
 
-            // The string is delimited by commas
-            parsedReply = reply.split(",");
+                            System.out.println(reply);
 
-            if(Arrays.asList(parsedReply).contains("1"))
-                currentPowerStatus[0] = "ON";
+                            if (reply != null) {
 
-            else
-                currentPowerStatus[0] = "OFF";
+                                // Bring back the headings
+                                systemStatusHeading.setText(getString(R.string.system_power));
+                                lightingStatusHeading.setVisibility(View.VISIBLE);
+                                airPumpStatusHeading.setVisibility(View.VISIBLE);
+                                waterPumpStatusHeading.setVisibility(View.VISIBLE);
 
-            // Set the power status from the string
-            for (int i = 1; i < 4; i++) {
+                                // The string is delimited by commas
+                                parsedReply = reply.split(",");
 
-                if (parsedReply[i-1].equals("1"))
-                    currentPowerStatus[i] = "ON";
+                                if (Arrays.asList(parsedReply).contains("1"))
+                                    currentPowerStatus[0] = "ON";
 
-                else
-                    currentPowerStatus[i] = "OFF";
-            }
+                                else
+                                    currentPowerStatus[0] = "OFF";
 
-            // Bring back the headings
-            systemStatusHeading.setText(getString(R.string.system_power));
-            lightingStatusHeading.setVisibility(View.VISIBLE);
-            airPumpStatusHeading.setVisibility(View.VISIBLE);
-            waterPumpStatusHeading.setVisibility(View.VISIBLE);
+                                // Set the power status from the string
+                                for (int i = 1; i < 4; i++) {
 
-            // Update the system status without sending it to the system
-            sendToSystem = false;
-            updateStatus();
+                                    if (parsedReply[i - 1].equals("1"))
+                                        currentPowerStatus[i] = "ON";
 
-            // Re-enable the power button
-            powerBtn.setEnabled(true);
+                                    else
+                                        currentPowerStatus[i] = "OFF";
+                                }
 
-            System.out.println(reply);
+                                // Bring back the headings
+                                systemStatusHeading.setText(getString(R.string.system_power));
+                                lightingStatusHeading.setVisibility(View.VISIBLE);
+                                airPumpStatusHeading.setVisibility(View.VISIBLE);
+                                waterPumpStatusHeading.setVisibility(View.VISIBLE);
+
+                                // Update the system status without sending it to the system
+                                sendToSystem = false;
+                                updateStatus();
+
+                                // Re-enable the power button
+                                powerBtn.setEnabled(true);
+
+                            } else
+                                Toast.makeText(context, "System Connection Refused", Toast.LENGTH_SHORT).show();
+                        }
+                    }, 4000);
+
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+
+                            // Now I will check the Water level and throw a notification if necessary
+                            // FULL MID LOW EMPTY
+                            request = new HttpRequestAsyncTask(context, WATER_LEVEL_STATUS, ipAddress, PORT_NUMBER, PIN_PARAMETER);
+                            request.execute();
+
+                        }
+                    }, 6000);
+
+            new android.os.Handler().postDelayed(
+                    new Runnable() {
+                        public void run() {
+
+                            reply = request.getReply();
+
+                            System.out.println(reply);
+
+                            if (enableNotifications && (reply !=null) && (reply.equals("LOW") || reply.equals("EMPTY"))) {
+
+                                // The large icon for the notification only accepts a bitmap
+                                bm = BitmapFactory.decodeResource(getResources(), R.drawable.ic_logo);
+
+                                // Creating a test notification
+                                mBuilder = new NotificationCompat.Builder(context)
+                                        .setAutoCancel(true)
+                                        .setSmallIcon(R.drawable.ic_small_notificaiton)
+                                        .setLargeIcon(bm)
+                                        .setContentTitle("Water level " + reply.toLowerCase())
+                                        .setContentText("Click this notification to return to WaterWise");
+
+                                // Creating the intent to direct the user when the notification is tapped
+                                notificationIntent = new Intent(context, SplashActivity.class);
+
+                                stackBuilder = TaskStackBuilder.create(context);
+                                stackBuilder.addParentStack(SystemActivity.class);
+                                stackBuilder.addNextIntent(notificationIntent);
+
+                                notificationPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                                // Setting up the return to the application
+                                mBuilder.setContentIntent(notificationPendingIntent);
+                                mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                                // Signaling the notification
+                                mNotificationManager.notify(0, mBuilder.build());
+
+                            }
+                        }
+                    }, 9000);
         }
-
-        // notification code
-/*
-        if (prefs.getBoolean("enableNotifications", false)) {
-
-            // The large icon for the notification only accepts a bitmap
-            bm = BitmapFactory.decodeResource(getResources(), R.drawable.ic_logo);
-
-            // Creating a test notification
-            mBuilder = new NotificationCompat.Builder(context)
-                    .setAutoCancel(true)
-                    .setSmallIcon(R.drawable.ic_small_notificaiton)
-                    .setLargeIcon(bm)
-                    .setContentTitle("Come back!")
-                    .setContentText("Click this notification to return to the System Fragment");
-
-            // Creating the intent to direct the user when the notification is tapped
-            notificationIntent = new Intent(context, SplashActivity.class);
-
-            stackBuilder = TaskStackBuilder.create(context);
-            stackBuilder.addParentStack(SystemActivity.class);
-            stackBuilder.addNextIntent(notificationIntent);
-
-            notificationPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            // Setting up the return to the application
-            mBuilder.setContentIntent(notificationPendingIntent);
-            mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-            // Signaling the notification
-            mNotificationManager.notify(0, mBuilder.build());
-        }
-*/
 
         // OnClickListener for FAB to launch power options dialog
         powerBtn.setOnClickListener(new View.OnClickListener() {
@@ -234,7 +283,6 @@ public class SystemFragment extends Fragment{
                 powerDialog.show(fm, "fragment_power_dialog");
             }
         });
-
     }
 
     @Override

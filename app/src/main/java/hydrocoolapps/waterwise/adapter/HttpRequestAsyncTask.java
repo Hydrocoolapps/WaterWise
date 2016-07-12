@@ -85,8 +85,6 @@ public class HttpRequestAsyncTask extends AsyncTask<Void, Void, Void> {
             HttpGet getRequest = new HttpGet(); // create an HTTP GET object
             getRequest.setURI(website); // set the URL of the GET request
 
-            //getRequest.setHeader("Connection", "close");
-
             System.out.println("http://"+ipAddress+":"+portNumber+"/?"+parameter+"="+parameterValue);
 
             getRequest.setHeader("User-Agent", "WaterWise Mobile Application");
@@ -118,8 +116,6 @@ public class HttpRequestAsyncTask extends AsyncTask<Void, Void, Void> {
             serverResponse = e.getMessage();
             e.printStackTrace();
         }
-
-        System.out.println(serverResponse);
 
         // return the server's reply/response text
         return serverResponse;

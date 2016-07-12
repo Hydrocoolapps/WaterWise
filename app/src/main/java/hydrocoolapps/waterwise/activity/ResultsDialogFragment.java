@@ -41,9 +41,12 @@ public class ResultsDialogFragment extends DialogFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                System.out.println("Selected: " + position + " " + searchResults[position]);
+
                 // Adding the selected item to an intent before sending it back to the plant_info fragment
                 Intent i = new Intent()
-                        .putExtra("searchResults", searchResults[position]);
+                        .putExtra("searchResults", searchResults[position])
+                        .putExtra("position", position);
 
                 getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, i);
 

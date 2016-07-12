@@ -41,12 +41,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/plant_info_heading"
-                android:layout_marginLeft="@dimen/default_margin"
-                android:layout_marginRight="@dimen/default_margin"
+                android:layout_marginStart="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin"
                 android:layout_marginBottom="@dimen/default_margin"
-
                 android:textSize="@dimen/body_size"
                 android:text="@string/plant_info_description" />
+
+            <Button style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:id="@+id/btn_set_plant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/default_margin"
+                android:layout_below="@id/plant_description"
+                android:layout_alignParentEnd="true"
+                android:text="@string/btn_set_plant"/>
 
         </RelativeLayout>
 

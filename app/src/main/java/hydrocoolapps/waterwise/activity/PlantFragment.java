@@ -11,6 +11,7 @@ import android.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,12 +22,14 @@ import com.kinvey.android.callback.KinveyListCallback;
 import com.kinvey.java.Query;
 
 import hydrocoolapps.waterwise.R;
+import hydrocoolapps.waterwise.adapter.HttpRequestAsyncTask;
 import hydrocoolapps.waterwise.adapter.PlantEntity;
 
 public class PlantFragment extends Fragment {
 
     private Bundle bundle;
     private Context context;
+    private Button btnSetPlant;
     private ImageView plantImage;
     private TextView plantTitle;
     private TextView plantDescription;
@@ -35,6 +38,12 @@ public class PlantFragment extends Fragment {
     private ResultsDialogFragment resultsDialog;
     private FragmentManager fm;
     private PlantFragment current;
+
+    private String selectedEC;
+
+    private String ipAddress;
+    private String reply;
+    private HttpRequestAsyncTask request;
 
     private Bundle args;
     private String searchInput;
@@ -49,9 +58,15 @@ public class PlantFragment extends Fragment {
 
     private SharedPreferences prefs;
 
+    private Boolean setPlant;
+
     // Using ints to provide selection of which DialogFragment to inflate
     private static final int SEARCH_DIALOG_FRAGMENT = 1;
     private static final int RESULTS_DIALOG_FRAGMENT = 2;
+
+    private final String PIN_PARAMETER = "pin";
+    private final String PORT_NUMBER = "80";
+    private final String SEND_EC_VALUE = "16";
 
     public PlantFragment() {}
 
@@ -76,9 +91,27 @@ public class PlantFragment extends Fragment {
         plantTitle = (TextView) view.findViewById(R.id.plant_info_heading);
         plantImage = (ImageView) view.findViewById(R.id.plant_info_image);
         plantDescription = (TextView) view.findViewById(R.id.plant_description);
+        btnSetPlant = (Button) view.findViewById(R.id.btn_set_plant);
         searchBtn = (FloatingActionButton) view.findViewById(R.id.plant_fab);
         currentImageId = -1;
 
+        ipAddress = prefs.getString("ip", "0.0.0.0");
+        setPlant = false;
+
+        btnSetPlant.setVisibility(View.GONE);
+
+        btnSetPlant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setPlant = true;
+
+                if (!ipAddress.equals("0.0.0.0") && !ipAddress.equals("1.1.1.1")) {
+                    // Need to send EC value for this plant
+                    request = new HttpRequestAsyncTask(context, SEND_EC_VALUE + "," + selectedEC, ipAddress, PORT_NUMBER, PIN_PARAMETER);
+                    request.execute();
+                }
+            }
+        });
 
         // Attaching the listener to the FAB
         searchBtn.setOnClickListener(new View.OnClickListener() {
@@ -104,6 +137,8 @@ public class PlantFragment extends Fragment {
             case SEARCH_DIALOG_FRAGMENT:
                 if (resultCode == Activity.RESULT_OK) {
 
+                    System.out.println("Returned from search dialog");
+
                     // Get data from the intent sent by the search dialog
                     bundle = data.getExtras();
                     searchInput = bundle.getString("search", "Failure");
@@ -114,11 +149,12 @@ public class PlantFragment extends Fragment {
                         // Need to query the database here using the search input
                         query = mKinveyClient.query().startsWith("plantName", searchInput);
 
+                        System.out.println("Searching for " + searchInput);
+
                         // Setting up the Async Data holder
                         plantResults = mKinveyClient.appData("Plants", PlantEntity.class);
 
                         plantResults.get(query, new KinveyListCallback<PlantEntity>() {
-
                             @Override
                             public void onSuccess(PlantEntity[] plantEntities) {
 
@@ -145,12 +181,13 @@ public class PlantFragment extends Fragment {
                                 }
 
                                 else
-                                    Toast.makeText(context, "No Results Found!", Toast.LENGTH_SHORT);
+                                    Toast.makeText(context, "No Results Found!", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
                             public void onFailure(Throwable throwable) {
-                                Toast.makeText(context, "Database could not be reached", Toast.LENGTH_SHORT);
+                                Toast.makeText(context, "Database could not be searched", Toast.LENGTH_SHORT).show();
+                                System.out.println(throwable.getMessage());
                             }
                         });
                     }
@@ -169,8 +206,13 @@ public class PlantFragment extends Fragment {
                     // If the selection is valid, change the values in the plant_info xml
                     if (selectedPlant != null) {
 
+                        System.out.println("Selected plant: " + selectedPlant.getPlantName());
+
+                        btnSetPlant.setVisibility(View.VISIBLE);
+
                         plantTitle.setText(selectedPlant.getPlantName());
                         plantDescription.setText(selectedPlant.getPlantDescription());
+                        selectedEC = selectedPlant.getEC();
 
                         // Deciding which image to use
                         switch(selectedPlant.getPlantName().toLowerCase()) {
@@ -182,6 +224,11 @@ public class PlantFragment extends Fragment {
 
                             case "tomatoes":
                                 currentImageId = R.drawable.ic_tomato_img;
+                                plantImage.setImageResource(currentImageId);
+                                break;
+
+                            case "thai basil":
+                                currentImageId = R.drawable.ic_thai_basil_img;
                                 plantImage.setImageResource(currentImageId);
                                 break;
 
@@ -201,18 +248,24 @@ public class PlantFragment extends Fragment {
     public void onPause() {
         super.onPause();
 
-        // Saving the current plant info selection to sharedprefs, will update with nutrient pump config later
-        prefs.edit().putString("plantTitle", plantTitle.getText().toString()).apply();
-        prefs.edit().putString("plantDescription", plantDescription.getText().toString()).apply();
+        if (setPlant) {
+            // If the user clicked the set plant button save this plant as the target plant
+            // Saving the current plant info selection to sharedprefs
+            prefs.edit().putString("plantTitle", plantTitle.getText().toString()).apply();
+            prefs.edit().putString("plantDescription", plantDescription.getText().toString()).apply();
+            prefs.edit().putString("ec", selectedEC).apply();
 
-        // Had to set if flag to keep the saved image id from being overridden if the user did not search a new plant
-        if (currentImageId != -1)
-            prefs.edit().putInt("plantImageId", currentImageId).apply();
+            // Had to set if flag to keep the saved image id from being overridden if the user did not search a new plant
+            if (currentImageId != -1)
+                prefs.edit().putInt("plantImageId", currentImageId).apply();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+        setPlant = false;
 
         // Pulling current plant info selection from sharedprefs
         plantTitle.setText(prefs.getString("plantTitle", getString(R.string.plant_info_heading)));

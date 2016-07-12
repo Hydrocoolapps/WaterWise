@@ -12,11 +12,8 @@ public class PlantEntity extends GenericJson {
     @Key("plantDescription") // Holds the description of the plant object
     private String plantDescription;
 
-    @Key("nutrientAmount") // Holds the amount of nutrients to be fed
-    private double nutrientAmount;
-
-    @Key("nutrientFrequency") // Not sure what is being done with this, maybe how frequently the water must be changed?
-    private int nutrientFrequency;
+    @Key("ec") // Holds the EC level for the current plant
+    private String ec;
 
     public PlantEntity() {}
 
@@ -24,9 +21,7 @@ public class PlantEntity extends GenericJson {
 
     public String getPlantDescription() { return this.plantDescription; }
 
-    public double getNutrientAmount() { return this.nutrientAmount; }
-
-    public int getNutrientFrequency() { return this.nutrientFrequency; }
+    public String getEC() { return this.ec; }
 
 }
 

@@ -112,7 +112,13 @@ public class SensorsFragment extends Fragment {
 
                     time = getFormattedTime();
 
-                    update();
+                    new android.os.Handler().postDelayed(
+                            new Runnable() {
+                                public void run() {
+                                    update();
+                                }
+                            }
+                    , 1000);
                 }
 
 
@@ -122,26 +128,37 @@ public class SensorsFragment extends Fragment {
                     request = new HttpRequestAsyncTask(context, SENSOR_REQUEST, ipAddress, PORT_NUMBER, PIN_PARAMETER);
                     request.execute();
 
-                    // Get the string
-                    reply = request.getReply();
+                    new android.os.Handler().postDelayed(
+                            new Runnable() {
+                                public void run() {
 
-                    // Error handling
-                    if (reply == null || reply.contains("ERROR"))
-                        System.out.println(reply);
+                                    // Get the string
+                                    reply = request.getReply();
 
-                    else {
+                                    System.out.println(reply);
 
-                        // String will be delimited by commas
-                        parsedReply = reply.split(",");
+                                    if (reply != null) {
 
-                        // Get the timestamp for the update
-                        time = getFormattedTime();
+                                        // Error handling
+                                        if (reply == null || reply.contains("ERROR"))
+                                            System.out.println(reply);
 
-                        // Update the fields
-                        update();
-                    }
+                                        else {
+
+                                            // String will be delimited by commas
+                                            parsedReply = reply.split(",");
+
+                                            // Get the timestamp for the update
+                                            time = getFormattedTime();
+
+                                            // Update the fields
+                                            update();
+                                        }
+                                    }
+
+                                }
+                            }, 5000);
                 }
-
             }
         });
     }
@@ -153,9 +170,6 @@ public class SensorsFragment extends Fragment {
 
     // This method will update the fields on the screen
     private void update() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
 
                 mSwipeRefreshLayout.setRefreshing(false);
 
@@ -163,7 +177,7 @@ public class SensorsFragment extends Fragment {
                 phReading.setText(parsedReply[0] + "ph");
                 ecReading.setText(parsedReply[1] + "mS/cm");
                 waterTempReading.setText(parsedReply[2] + "F");
-                waterLevelReading.setText(parsedReply[3]);
+                waterLevelReading.setText(parsedReply[3].substring(0,1) + parsedReply[3].substring(1).toLowerCase());
                 airTempReading.setText(parsedReply[4] + "F");
                 humidityReading.setText(parsedReply[5] + "%");
 
@@ -174,9 +188,6 @@ public class SensorsFragment extends Fragment {
                 waterLevelTimestamp.setText(time);
                 airTempTimestamp.setText(time);
                 humidityTimestamp.setText(time);
-
-            }
-        }, 1000);
     }
 
     // Method to create a timestamp

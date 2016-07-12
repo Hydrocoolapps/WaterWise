@@ -51,6 +51,7 @@
     <string name="hint_search">Search</string>
     <string name="btn_search">Search</string>
     <string name="btn_cancel">Cancel</string>
+    <string name="btn_set_plant">Set as current plant</string>
 
     <!-- Sensor screen strings -->
     <string name="instructions">Pull Down to Refresh</string>
