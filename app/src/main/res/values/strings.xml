@@ -39,7 +39,7 @@
     <string name="update_system"> System Information</string>
     <string name="email_unchanged">(Email Unchanged)</string>
     <string name="ip_unchanged">(IP Unchanged)</string>
-    <string name="port_unchanged">(Port Unchanged)</string>
+    <string name="port_unchanged">(Default :80)</string>
     <string name="update">Update</string>
     <string name="err_msg_ip">Please enter a valid IP address</string>
 

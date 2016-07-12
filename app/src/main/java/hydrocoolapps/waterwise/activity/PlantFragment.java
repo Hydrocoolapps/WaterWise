@@ -257,7 +257,7 @@ public class PlantFragment extends Fragment {
 
             // Had to set if flag to keep the saved image id from being overridden if the user did not search a new plant
             if (currentImageId != -1)
-                prefs.edit().putInt("plantImageId", currentImageId).apply();
+                prefs.edit().putInt("plantImageId", currentImageId).commit();
         }
     }
 
@@ -270,7 +270,12 @@ public class PlantFragment extends Fragment {
         // Pulling current plant info selection from sharedprefs
         plantTitle.setText(prefs.getString("plantTitle", getString(R.string.plant_info_heading)));
         plantDescription.setText(prefs.getString("plantDescription", getString(R.string.plant_info_description)));
-        plantImage.setImageResource(prefs.getInt("plantImageId", R.drawable.ic_placeholder2_img));
+
+        currentImageId = prefs.getInt("plantImageId", R.drawable.ic_placeholder2_img);
+        plantImage.setImageResource(currentImageId);
+        
+        System.out.printf("Lettuce ID: %d \n Tomato ID: %d \n Thai Basil ID: %d \n Current ID: %d \n", R.drawable.ic_lettuce_img, R.drawable.ic_tomato_img, R.drawable.ic_thai_basil_img, currentImageId);
+
     }
 
 }

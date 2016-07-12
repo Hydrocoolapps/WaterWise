@@ -408,6 +408,10 @@ public class WelcomeActivity extends AppCompatActivity {
                 plantImageId = R.drawable.ic_tomato_img;
                 break;
 
+            case "Thai Basil":
+                plantImageId = R.drawable.ic_thai_basil_img;
+                break;
+
             default:
                 plantImageId = R.drawable.ic_placeholder2_img;
                 break;
